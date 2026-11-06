@@ -167,27 +167,49 @@ Enjoy chapter-based playback, synchronized reading, and personalized listening c
 
 ---
 
+
 ## 🖥️ Product Showcase
 
-The following screenshots showcase the VOXORA interface, visual identity, and major product experiences.
+Explore the VOXORA interface, designed to deliver an immersive AI-powered audiobook experience.
 
-### 01. The VOXORA Experience
+### 01 — Welcome to VOXORA
+*Where Stories Find Their Voice.*
 
-A cinematic landing experience introducing the audiobook platform, narration preview, and book-to-audio workflow.
+![VOXORA Landing Page](./screenshots/landing%20page.png)
 
-![VOXORA Landing Page](screenshots/01-landing-hero.png)
+### 02 — How VOXORA Works
+*From books to immersive audio experiences.*
 
-### 02. How VOXORA Works
+![How VOXORA Works](./screenshots/landing%20page%202.png)
 
-A simple three-step introduction to bringing a book, choosing a narrator, and starting to listen.
+### 03 — Powerful Platform Features
+*Intelligent document processing, natural narration, and interactive reading.*
 
-![How VOXORA Works](screenshots/02-how-voxora-works.png)
+![VOXORA Features](./screenshots/landing%20page%203.png)
 
-### 03. A Complete Audiobook Platform
+### 04 — Personalized Listening
+*Your books, your pace, your listening experience.*
 
-An overview of document processing, chapter discovery, natural narration, character voices, book interaction, and privacy-focused functionality.
+![VOXORA Listening Experience](./screenshots/landing%20page%204.png)
 
-![VOXORA Platform Features](screenshots/03-platform-features.png)
+### 05 — Create Your Audiobook
+*Transform documents into engaging audiobook experiences.*
+
+![VOXORA Audiobook Creation](./screenshots/audio%20book%20creating.png)
+
+### 06 — AI Voice Studio
+*Discover and audition natural AI narrators.*
+
+![VOXORA Voice Studio](./screenshots/Studio.png)
+
+### 07 — Explore Narrator Voices
+*Choose from local and cloud-based voices.*
+
+![VOXORA Narrator Collection](./screenshots/Stdio.png)
+
+### 08 — Additional Product Preview
+
+![VOXORA Additional Screenshot](./screenshots/Screenshot%202026-11-06%20013817.png)
 
 ### 04. Listen Beyond the Page
 
