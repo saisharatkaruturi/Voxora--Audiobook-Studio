@@ -1,220 +1,492 @@
----
-title: VOXORA
-emoji: 🎧
-colorFrom: blue
-colorTo: green
-sdk: docker
-app_port: 7860
-pinned: false
-short_description: Turn any book you own into a narrated audiobook.
----
+# VOXORA — Where Stories Find Their Voice. 🎧
 
-# VOXORA
+<div align="center">
 
-### Where stories find their voice.
+### Your Books. Your Voices. Your Listening Experience.
 
-VOXORA is an AI-powered audiobook studio that transforms books and documents into immersive listening experiences. Drop in a PDF, EPUB, DOCX, TXT or scanned book; VOXORA reads it, finds the chapters, lets you review everything, gives it a natural voice, and hands you a chapter-by-chapter audiobook with a player that remembers exactly where you stopped.
+**An AI-powered Audiobook Studio that transforms books and documents into immersive, personalized listening experiences.**
 
-It is **local-first**: by default everything (text extraction, OCR, neural narration, storage, search, and the AI model) runs on your own machine. Cloud voices and cloud AI are opt-in, and the app always tells you where your book is processed.
+[Features](#-key-features) · [Architecture](#️-system-architecture) · [Screenshots](#-product-showcase) · [Installation](#-getting-started)
 
-![VOXORA landing page](docs/screenshots/landing.png)
+</div>
 
----
-
-## Features
-
-| | |
-|---|---|
-| **Any book** | PDF, EPUB, DOCX, TXT, Markdown, scanned PDFs and page photos (JPG/PNG/WebP/TIFF). Scans are detected per page and OCR'd automatically (RapidOCR, Tesseract or EasyOCR), with confidence warnings. |
-| **Clean text** | Headers/footers, page numbers, hyphenation (`CHAP-/TER` → `CHAPTER`), broken line wraps and OCR artifacts are repaired without merging real paragraphs. |
-| **Real structure** | Chapters, parts, prologue/epilogue, TOC, front and back matter from outlines, heading styles, numbering patterns and layout, never "every numbered paragraph". |
-| **Book Studio** | Rename, reorder (drag or keyboard), merge, split, edit text, include/exclude, preview a chapter, see exactly what will be spoken. |
-| **Narration Cleanup** | Optional: speaks abbreviations, times, numbers, dates, symbols and URLs naturally. Never paraphrases, summarizes or adds content. |
-| **Voices** | Piper (local neural, installable voices), Windows SAPI, Microsoft Edge online voices (incl. Hindi, Telugu, Tamil, Kannada, Malayalam, Bengali, Marathi...), OpenAI-compatible TTS, ElevenLabs. Only languages a provider really supports are shown. |
-| **Mixed-language books** | Language detected per paragraph; each language can have its own voice. |
-| **AI Cast** *(experimental)* | Finds dialogue and speakers; give every character a voice. The text is never altered. |
-| **Understands the book** | Classifies every section (title page, copyright, dedication, foreword, preface, introduction, contents, prologue, chapters, parts, epilogue, afterword, appendix, glossary, notes, author bio, ads) from headings, numbering, TOC, position and length. **Narrative Only** (default), **Full Book** or **Custom** decide what's narrated; nothing is deleted. Characters are detected automatically. |
-| **Robust generation** | Background jobs, chapter-by-chapter, pause/resume/cancel, automatic retry with backoff, resume from the failed chapter, and a content-hash TTS cache so unchanged text is never synthesized twice. |
-| **Audio** | Loudness normalization, silence trimming, optional compression, MP3 (default) / M4A / WAV, configurable bitrate, ID3 tags with cover and chapter markers, per-chapter files plus a full-book file. |
-| **Player** | Resume exactly where you stopped (across devices), 0.75×–2× speed, sleep timer (minutes or end of chapter, with fade-out), bookmarks with notes, read-along sentence highlighting, keyboard shortcuts, lock-screen controls, audio-reactive visuals. |
-| **Ask the Book** | Retrieval-augmented Q&A scoped to one book: hybrid dense + BM25 retrieval, cross-encoder reranking, citations, and a clear split between what the text says and the AI's inference. Optional spoiler-safe mode. |
-| **Insights** | Optional summaries, chapter summaries, characters, key events, themes and glossary. |
-| **Downloads** | Full audiobook (MP3), **M4B with chapter markers and cover**, individual chapters, extracted text, processed text, narration script, and a ZIP package with metadata and cover. |
-| **Privacy** | Accounts with private libraries, signed expiring media URLs, delete the book, its audio or its original file at any time, no telemetry. |
-
-<p>
-<img src="docs/screenshots/library.png" width="49%" alt="Library" />
-<img src="docs/screenshots/player.png" width="49%" alt="Player" />
-<img src="docs/screenshots/studio.png" width="49%" alt="Studio" />
-<img src="docs/screenshots/story-alive.png" width="49%" alt="Your story is alive" />
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19"/>
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
+  <img src="https://img.shields.io/badge/Supabase-Integration-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"/>
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"/>
 </p>
 
 ---
 
-## Quick start
+## 🌌 Overview
+
+**VOXORA** is an AI-powered audiobook creation and reading platform designed to change how people experience written content.
+
+Books are meant to be experienced, not just read. VOXORA transforms traditional documents into personalized listening experiences through intelligent document processing, automatic chapter discovery, natural voice narration, and interactive reading features.
+
+Users can bring their own books, explore a collection of narrators, configure narration preferences, and enjoy their content chapter by chapter.
+
+But VOXORA goes beyond conventional text-to-speech.
+
+With features such as multi-character voice casting, synchronized read-along, personalized listening controls, and an interactive Ask the Book experience, it brings multiple dimensions of digital reading together in one platform.
+
+**From a document to a voice. From a voice to an experience.**
+
+That's VOXORA.
+
+## ✨ Key Features
+
+### 📚 1. Intelligent Document Processing
+
+Bring your books and documents into VOXORA.
+
+- Import PDF, EPUB, DOCX, and TXT documents.
+- Support scanned-document reading workflows.
+- Extract and prepare document content for narration.
+- Organize uploaded books in a personal library.
+- Configure reading options before audiobook creation.
+
+### 🧠 2. Automatic Chapter Detection
+
+Turn long documents into structured listening experiences.
+
+- Identify chapter headings and numbering.
+- Recognize document structure and tables of contents.
+- Organize content into navigable chapters.
+- Allow users to refine detected chapter structures.
+
+### 🎙️ 3. AI-Powered Voice Studio
+
+Discover the right voice for every listening experience.
+
+- Browse available narrators.
+- Explore local and cloud-based voice options.
+- Filter narrators by language.
+- Search for voices.
+- Preview narration samples.
+- Explore different accents and voice styles.
+- Select a default narrator.
+- Customize narration speed.
+
+### 🎭 4. Multi-Character Voice Casting
+
+Give every character a distinct voice.
+
+- Assign different narrators to individual characters.
+- Create more expressive storytelling experiences.
+- Configure character-specific voice preferences.
+- Preserve the original story while changing its narration experience.
+
+### 📖 5. Synchronized Read-Along
+
+Experience reading and listening together.
+
+- Follow the text while narration plays.
+- Synchronize displayed sentences with audio playback.
+- Navigate through chapters.
+- Continue from previously saved reading positions.
+
+### 💬 6. Ask the Book
+
+Make your books interactive with an AI-powered question experience.
+
+- Ask questions about book content.
+- Explore relevant passages.
+- Receive answers with supporting citations.
+- Distinguish source material from AI-generated interpretation.
+
+### 🔖 7. Personalized Listening Experience
+
+Build a listening experience around your preferences.
+
+- Playback speed controls from 0.75× to 2×.
+- Bookmarks and notes.
+- Sleep timer.
+- Listening progress tracking.
+- Resume listening.
+- Personal audiobook library.
+
+### 🌍 8. Multilingual Voice Discovery
+
+Explore narration options across Indian and international languages.
+
+- Language-based voice discovery.
+- Local and cloud voice categories.
+- Voice search and filtering.
+- Different accents and narration styles.
+
+### 🔐 9. Privacy-Focused Reading
+
+VOXORA emphasizes control and transparency when working with personal documents.
+
+- Visibility into document-processing workflows.
+- Content management and deletion controls.
+- Local and cloud voice choices, depending on provider availability.
+
+Actual processing and storage behavior depends on the configured deployment and service providers.
+
+---
+
+## 🧭 How VOXORA Works
+
+VOXORA brings the complete audiobook creation workflow into one experience.
+
+```mermaid
+flowchart TD
+    A[Upload a Book or Document] --> B[Document Processing]
+    B --> C[Text Extraction]
+    C --> D[Automatic Chapter Detection]
+    D --> E[Reading Configuration]
+    E --> F[Voice Selection]
+    F --> G[Audio Narration]
+    G --> H[Chapter-Based Playback]
+    H --> I[Synchronized Read-Along]
+    H --> J[Bookmarks and Progress]
+    H --> K[Ask the Book]
+```
+
+### The Four-Step Journey
+
+**01 — BRING YOUR BOOK**
+
+Upload a PDF, EPUB, DOCX, TXT, or scanned document.
+
+**02 — DISCOVER ITS STRUCTURE**
+
+Extract document content and organize it into chapters.
+
+**03 — GIVE IT A VOICE**
+
+Explore narrators, preview available voices, and configure narration preferences.
+
+**04 — START LISTENING**
+
+Enjoy chapter-based playback, synchronized reading, and personalized listening controls.
+
+---
+
+## 🖥️ Product Showcase
+
+The following screenshots showcase the VOXORA interface, visual identity, and major product experiences.
+
+### 01. The VOXORA Experience
+
+A cinematic landing experience introducing the audiobook platform, narration preview, and book-to-audio workflow.
+
+![VOXORA Landing Page](screenshots/01-landing-hero.png)
+
+### 02. How VOXORA Works
+
+A simple three-step introduction to bringing a book, choosing a narrator, and starting to listen.
+
+![How VOXORA Works](screenshots/02-how-voxora-works.png)
+
+### 03. A Complete Audiobook Platform
+
+An overview of document processing, chapter discovery, natural narration, character voices, book interaction, and privacy-focused functionality.
+
+![VOXORA Platform Features](screenshots/03-platform-features.png)
+
+### 04. Listen Beyond the Page
+
+A personalized listening experience with resume functionality, bookmarks, playback controls, and reading continuity.
+
+![VOXORA Listening Experience](screenshots/04-listening-experience.png)
+
+### 05. Create Your Audiobook
+
+Import a document and configure the reading experience before adding it to your VOXORA library.
+
+![Create Audiobook](screenshots/05-create-audiobook.png)
+
+### 06. Give Your Story a Voice
+
+The Voice Studio allows users to browse, search, filter, and audition available narrators.
+
+![VOXORA Voice Studio](screenshots/06-voice-studio.png)
+
+### 07. Explore the Voice Collection
+
+Discover a wider collection of available local and cloud-based narrators, languages, and voice styles.
+
+![VOXORA Voice Collection](screenshots/07-voice-catalog.png)
+
+---
+
+## 🛠️ Technology Stack
+
+VOXORA uses a modern frontend ecosystem built around React and TypeScript, supported by libraries for application state, data management, animations, 3D rendering, and testing.
+
+### Frontend Development
+
+| Technology | Purpose |
+|---|---|
+| React 19 | Component-based UI development |
+| TypeScript | Type-safe application development |
+| Vite 8 | Development server and production build tooling |
+| React Router 7 | Application navigation |
+| Tailwind CSS 4 | Utility-first styling |
+| Framer Motion | Animations and transitions |
+| Lucide React | Interface icons |
+
+### State Management and Data
+
+| Technology | Purpose |
+|---|---|
+| Zustand | Client-side state management |
+| TanStack Query | Server-state management and asynchronous data fetching |
+| Supabase JavaScript SDK | Supabase application integration |
+
+### 3D Graphics and Visual Experience
+
+| Technology | Purpose |
+|---|---|
+| Three.js | 3D rendering |
+| React Three Fiber | React integration for Three.js |
+| React Three Drei | Helpers and abstractions for 3D scenes |
+
+### Testing and Development Tools
+
+| Technology | Purpose |
+|---|---|
+| Vitest | Unit testing |
+| React Testing Library | Component testing |
+| Testing Library Jest DOM | DOM assertions |
+| Testing Library User Event | User interaction testing |
+| jsdom | Browser-like testing environment |
+| TypeScript Compiler | Static type checking |
+
+### Development Configuration
+
+- Vite React plugin
+- Tailwind CSS Vite integration
+- npm package management
+
+---
+
+## 🏗️ System Architecture
+
+VOXORA's verified frontend architecture is organized around reusable React components, dedicated state management, asynchronous data handling, and external service integration.
+
+```mermaid
+flowchart TD
+    U[User] --> UI[React 19 + TypeScript]
+    
+    UI --> NAV[React Router 7]
+    UI --> STATE[Zustand]
+    UI --> QUERY[TanStack Query]
+    
+    UI --> VISUAL[Framer Motion]
+    UI --> THREE[Three.js / React Three Fiber]
+    
+    QUERY --> SDK[Supabase JavaScript SDK]
+    SDK --> SERVICES[Configured Supabase Services]
+```
+
+### Architectural Responsibilities
+
+- **Presentation Layer:** React components and responsive user interfaces.
+- **Navigation Layer:** React Router for application navigation.
+- **Client State:** Zustand for shared application state.
+- **Server State:** TanStack Query for asynchronous data management.
+- **Integration Layer:** Supabase JavaScript SDK.
+- **Visual Layer:** Framer Motion, Three.js, React Three Fiber, and Drei.
+- **Testing Layer:** Vitest and React Testing Library.
+
+The frontend dependencies establish the technologies above. Backend processing, database schema, audio-generation providers, and AI model architecture should be documented against their respective implementation files.
+
+---
+
+## 📂 Project Structure
+
+The following is a conceptual structure for organizing the frontend. Adjust it to match the actual repository folders.
+
+```text
+VOXORA/
+│
+├── public/
+│   └── assets/
+│
+├── screenshots/
+│   ├── 01-landing-hero.png
+│   ├── 02-how-voxora-works.png
+│   ├── 03-platform-features.png
+│   ├── 04-listening-experience.png
+│   ├── 05-create-audiobook.png
+│   ├── 06-voice-studio.png
+│   └── 07-voice-catalog.png
+│
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   ├── store/
+│   ├── services/
+│   ├── lib/
+│   ├── assets/
+│   ├── styles/
+│   └── main.tsx
+│
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the frontend locally.
 
 ### Prerequisites
 
-- **Python 3.11+** (tested on 3.13)
-- **Node.js 20+** (tested on 24)
-- Optional: **Ollama** for a local AI model (Ask the Book, summaries), **Tesseract** for an extra OCR engine.
+Make sure you have:
 
-No database server, Redis, or ffmpeg install is required: SQLite, a database-backed job queue and a bundled ffmpeg are used by default.
+- Node.js
+- npm
+- Git
 
-### 1. Backend
+### 1. Clone the Repository
 
 ```bash
-cd backend
-python -m venv .venv
-# Windows
-.venv\Scripts\pip install -r requirements.txt
-# macOS / Linux
-.venv/bin/pip install -r requirements.txt
-
-cp .env.example .env        # optional: every setting has a local default
-python main.py              # API + background worker on http://127.0.0.1:8000
+git clone https://github.com/saisharatkaruturi/Voxora--Audiobook-Studio.git
 ```
 
-The first run creates `backend/data/` (database, storage, models). The default Piper voice (`en_US-lessac-medium`) can be installed from **Voice Studio** with one click, or placed in `backend/data/voices/piper/`.
-
-### 2. Frontend
+### 2. Navigate to the Project
 
 ```bash
-cd frontend
+cd Voxora--Audiobook-Studio
+```
+
+### 3. Install Dependencies
+
+```bash
 npm install
-npm run dev                 # http://localhost:5173 (proxies /api, /media, /ws to the backend)
 ```
 
-Open http://localhost:5173, create an account (the first account becomes the admin), and bring in a book.
+### 4. Configure Environment Variables
 
-### Single-process mode
+Create a `.env` file using the configuration expected by the application.
 
-`npm run build` in `frontend/` produces `frontend/dist`, which the backend serves automatically: `python backend/main.py` then serves everything on port 8000.
+Configure the required Supabase connection details and any other integrations used by your local setup.
 
-From the repository root you can also use:
+Never commit actual credentials, API keys, or private configuration files.
+
+### 5. Start the Development Server
 
 ```bash
-npm run setup      # installs backend (venv) + frontend dependencies
-npm run backend    # python backend/main.py
-npm run dev        # frontend dev server
-npm test           # backend pytest + frontend vitest
+npm run dev
 ```
 
----
+Vite will display the local development URL in your terminal.
 
-## Generating an audiobook
-
-1. **Create** → drop a file → **Add to VOXORA**. Watch the pages lift into the book while it's read; scans are OCR'd automatically.
-2. **Review chapters** in Book Studio: fix titles, merge/split, exclude front matter.
-3. **Choose a voice** in Voice Studio: audition narrators on a passage from your own book, tune speed and pauses.
-4. **Create Audiobook.** Chapters generate in the background; you can pause, resume, cancel or retry a single chapter.
-5. **Start Listening.** Close the app any time; VOXORA resumes exactly where you stopped.
-
----
-
-## Performance
-
-Measured on a 12-core CPU without a GPU (`scripts/benchmark_tts.py`, `scripts/benchmark_pipeline.py`):
-
-| Stage | Measured |
-|---|---|
-| Reading & structuring (extract, clean, chapters) | ~270 pages/minute, <20 MB peak memory at 600 pages |
-| Local Piper voice, old engine (one chunk at a time) | ~2.7x realtime |
-| Local Piper voice, parallel engine (6 sessions x 2 threads, auto-sized) | 6-11x realtime (a real 15-min chapter in 83 s) |
-| Edge cloud voices, 6 parallel requests | ~29x realtime (a 400-page novel in about 28 minutes) |
-
-Chunks are synthesized in parallel but assembled strictly in sequence; each chapter encodes while the next one synthesizes; every chunk is cached by a hash of text + voice + settings, so a crash or edit only re-synthesizes what changed. Chapters are playable the moment they finish. A 400-page book takes about 1.5-2 hours with a local voice on a CPU like this, or about 30 minutes with cloud voices; a CUDA GPU is used automatically when onnxruntime-gpu is installed. Tune with `TTS_CONCURRENCY` and `PIPER_SESSIONS`.
-
-## Configuration
-
-All configuration is via environment variables (or `backend/.env`). See [`backend/.env.example`](backend/.env.example) for every option. The most important:
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `DATABASE_URL` | SQLite in `backend/data` | Any SQLAlchemy URL, e.g. `postgresql+psycopg://…` |
-| `STORAGE_PROVIDER` | `local` | `local` or `s3` (any S3-compatible store; presigned download URLs) |
-| `TTS_PROVIDER` | `piper` | `piper`, `sapi`, `edge`, `openai`, `elevenlabs` |
-| `TTS_API_KEY`, `OPENAI_TTS_API_KEY`, `ELEVENLABS_API_KEY` | – | Cloud voices |
-| `OCR_PROVIDER` | `auto` | `auto`, `rapidocr`, `tesseract`, `easyocr` |
-| `LLM_PROVIDER` | `auto` | `auto` uses Claude when Anthropic credentials exist (`ANTHROPIC_API_KEY`), else the best installed local Ollama model; or `ollama`, `openai`, `anthropic`, `none` |
-| `EMBEDDING_PROVIDER` | `fastembed` | Local embeddings: `bge-base-en-v1.5` for English, a multilingual model otherwise |
-| `RERANK_ENABLED` | `true` | Cross-encoder reranking for Ask the Book |
-| `MAX_FILE_SIZE_MB` | `300` | Upload limit |
-| `RUN_WORKER_IN_PROCESS` | `true` | Set `false` and run `python -m app.workers.runner` to scale workers separately |
-
-### OCR setup
-RapidOCR installs with pip and works out of the box. For Tesseract, install it ([Windows builds](https://github.com/UB-Mannheim/tesseract/wiki), `brew install tesseract`, `apt install tesseract-ocr`) plus language packs (e.g. `tesseract-ocr-hin tesseract-ocr-tel`), and set `TESSERACT_CMD` if it isn't on `PATH`.
-
-### TTS setup
-- **Piper (default, local):** install voices from Voice Studio (downloads from the Piper voice catalog) or copy `.onnx` + `.onnx.json` files into `backend/data/voices/piper/`.
-- **Edge voices (cloud, free):** enabled by default; text is sent to Microsoft's speech service, and VOXORA asks before sending a book.
-- **OpenAI / ElevenLabs:** set the API key; cost estimates are shown when pricing is known.
-
-### AI model setup
-- **Local:** install [Ollama](https://ollama.com) and pull a chat model (`ollama pull qwen3` or `llama3.1:8b`). VOXORA picks the best one installed.
-- **Claude:** set `ANTHROPIC_API_KEY` (or `LLM_PROVIDER=anthropic` + `LLM_API_KEY`). Relevant passages are sent to Anthropic; the UI labels this.
-
-### Database & Redis
-SQLite is the default and needs no setup. For PostgreSQL, install `psycopg[binary]` and set `DATABASE_URL`. Redis is **not** required: jobs are durable rows in the database (see [ARCHITECTURE.md](ARCHITECTURE.md#background-jobs)), which survive restarts and work on Windows.
-
----
-
-## Development
+### 6. Build for Production
 
 ```bash
-# backend tests (hermetic: fake TTS engine, temp database; real OCR/ffmpeg/pipeline)
-cd backend && .venv/Scripts/python -m pytest -q
-
-# end-to-end smoke test against a running server
-.venv/Scripts/python scripts/e2e_smoke.py tests/fixtures/lantern-at-gull-point.pdf
-
-# frontend
-cd frontend && npm run typecheck && npm test && npm run build
+npm run build
 ```
 
-The sample book *The Lantern at Gull Point* is an original public-domain (CC0) text used for tests and demos; `backend/scripts/make_sample_books.py` regenerates it as TXT, PDF, scanned PDF, DOCX and EPUB.
+### 7. Preview the Production Build
 
-### Project layout
-
-```
-backend/
-  app/
-    api/routes/          REST + WebSocket endpoints
-    core/                config, security, errors, logging, rate limiting
-    db/ models/ schemas/ SQLAlchemy models and API serializers
-    document_processing/ PDF/DOCX/EPUB/TXT/image extraction, cleaning, structure, language
-    providers/           tts/ ocr/ llm/ embeddings/ storage/ rerank (swappable)
-    services/            ingest, generation, RAG, cast, insights, export
-    audio/               ffmpeg, processing, tags, covers
-    workers/             durable job queue + worker pool
-  tests/                 pytest suite + sample-book fixtures
-frontend/
-  src/
-    components/          brand/ 3d/ audio/ navigation/ player/ book/ ui/ layout/
-    features/            editor/ player/ voice/ ask/ book/ auth/
-    pages/               one file per screen
-    services/ stores/ hooks/ config/ types/ utils/
+```bash
+npm run preview
 ```
 
 ---
 
-## Troubleshooting
+## 🧪 Testing and Code Quality
 
-| Symptom | Fix |
-|---|---|
-| "Can't reach the VOXORA server" | Start the backend (`python backend/main.py`); the dev server proxies to `127.0.0.1:8000` (`VITE_API_PROXY` to change). |
-| No voices listed | Install a Piper voice in Voice Studio, or enable Edge voices (`TTS_ENABLED_PROVIDERS`). |
-| Scanned PDF produced no text | Check **Settings → Privacy** shows an OCR engine; try "Read every page as a scan" in Create → Reading options. |
-| Ask the Book answers slowly | Local models on CPU can take a minute; set `ANTHROPIC_API_KEY` for Claude, or pull a smaller Ollama model. Answers still return the best passages if no model is available. |
-| First question is slow once | The embedding and reranking models download on first use (~0.4 GB); the server warms them up in the background at start. |
-| Port already in use | `PORT=8010 python main.py` and `VITE_API_PROXY=http://127.0.0.1:8010 npm run dev`. |
+VOXORA's frontend configuration includes tools for automated testing and TypeScript validation.
+
+Run the test suite:
+
+```bash
+npm test
+```
+
+Run tests in watch mode:
+
+```bash
+npm run test:watch
+```
+
+Run TypeScript checks:
+
+```bash
+npm run typecheck
+```
+
+Build the application:
+
+```bash
+npm run build
+```
 
 ---
 
-## Roadmap
+## 🔐 Security and Configuration
 
-Articles & web pages · research papers & lecture notes · translation · narration styles & ambient soundscapes · shared libraries and collections · cloud sync · mobile and desktop apps. The provider and job architecture is built so these can be added without rewrites.
+When working with VOXORA:
 
-## Responsible use
+- Keep environment variables outside version control.
+- Never expose private API keys in frontend source code.
+- Use appropriate permissions for connected services.
+- Validate uploaded documents and supported file types.
+- Review the storage and retention configuration.
+- Avoid committing personal documents or generated audio.
+- Review cloud voice provider terms before processing sensitive content.
 
-VOXORA is for books you own, have permission to use, or that are in the public domain. It does not remove DRM and does not download books from anywhere.
+A production deployment should also include appropriate authentication, authorization, monitoring, backup, and infrastructure security reviews.
+
+---
+
+## 🗺️ Future Roadmap
+
+Potential areas for continued development include:
+
+- Expanded multilingual narration.
+- More expressive character-based voice casting.
+- Improved document and chapter recognition.
+- Enhanced audiobook library organization.
+- More reading accessibility features.
+- Additional narration-provider integrations.
+- Improved cross-device listening continuity.
+- Enhanced AI-powered book interaction.
+
+---
+
+## 🤝 Contributing
+
+Suggestions, feedback, and contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Implement your changes.
+4. Test the relevant application workflows.
+5. Submit a pull request with a clear description.
+
+---
+
+## 📄 License
+
+No license has been specified in this repository. Add an appropriate LICENSE file before granting others permission to reuse, modify, or redistribute the project.
+
+---
+
+<div align="center">
+
+# VOXORA
+
+### Where Stories Find Their Voice.
+
+**BOOKS → VOICE → SOUND → IMMERSION**
+
+Built by **Sai Sharat Karuturi**
+
+[GitHub Repository](https://github.com/saisharatkaruturi/Voxora--Audiobook-Studio)
+
+</div>
