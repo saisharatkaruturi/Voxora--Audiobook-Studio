@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>VOXORA — Where stories find their voice</title>
+    <meta name="description" content="Turn any book you own into a narrated audiobook. Choose the voice, follow the words, keep it on your device." />
+    <meta name="application-name" content="VOXORA" />
+    <meta name="theme-color" content="#0b3048" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      (function () {
+        var c = "dark";
+        try { c = localStorage.getItem("vx.theme") || "dark"; } catch (e) {}
+        var light = c === "light" || (c === "system" && window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches);
+        document.documentElement.dataset.theme = light ? "light" : "dark";
+        if (light) document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f2f0e9");
+      })();
+    </script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VOXORA" />
+    <meta property="og:title" content="VOXORA — Where stories find their voice" />
+    <meta property="og:description" content="Turn any book you own into a narrated audiobook. Choose the voice, follow the words, keep it on your device." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="VOXORA — Where stories find their voice" />
+    <meta name="twitter:description" content="Turn any book you own into a narrated audiobook. Choose the voice, follow the words, keep it on your device." />
+    <meta name="twitter:image" content="/icon-512.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="VOXORA" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

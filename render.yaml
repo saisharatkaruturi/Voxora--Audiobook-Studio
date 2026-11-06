@@ -1,0 +1,58 @@
+# Render Blueprint: VOXORA on Render's free plan (512 MB RAM).
+# Render builds the Dockerfile in this repo and redeploys on every push to main.
+#
+# Lite settings keep memory inside 512 MB (measured peak ~230 MB on a full book):
+# online voices only (no local voice engine), keyword search for Ask the Book
+# (answers still come from Gemini when GEMINI_API_KEY is set), one narration job
+# at a time, and no OCR for scanned books.
+services:
+  - type: web
+    name: voxora
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # --- secrets: Render asks for these when the Blueprint is created
+      - key: DATABASE_URL # Supabase: Connect -> Session pooler -> URI, as postgresql+psycopg://...
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: GEMINI_API_KEY # optional
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true # Render makes a random one
+      # --- lite mode for 512 MB
+      - key: TTS_PROVIDER
+        value: edge
+      - key: TTS_ENABLED_PROVIDERS
+        value: edge,openai,elevenlabs
+      - key: EMBEDDING_PROVIDER
+        value: hashing
+      - key: RERANK_ENABLED
+        value: "false"
+      - key: WORKER_CONCURRENCY
+        value: "1"
+      - key: BACKGROUND_WORKERS
+        value: "0"
+      - key: CHAPTER_CONCURRENCY
+        value: "1"
+      - key: TTS_CONCURRENCY
+        value: "3"
+      - key: ENCODE_CONCURRENCY
+        value: "1"
+      # Scanned books need OCR, whose models alone take ~400 MB: off on the free plan.
+      # On a bigger plan, delete OCR_PROVIDER (or set auto) and keep OCR_LOW_MEMORY/OCR_DPI.
+      - key: OCR_PROVIDER
+        value: none
+      - key: OCR_LOW_MEMORY
+        value: "true"
+      - key: OCR_DPI
+        value: "200"
+      - key: MAX_FILE_SIZE_MB
+        value: "60"

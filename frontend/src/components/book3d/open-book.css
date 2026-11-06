@@ -1,0 +1,564 @@
+/*
+ * Geometry. The book's origin is the spine: right-hand pages run from x = 0 to
+ * x = --pw, the left-hand page from -pw to 0. z grows toward the reader: back
+ * cover at 0, the page block up to --t, the front cover just above it.
+ */
+.ob-stage {
+  --t: calc(var(--pw) * 0.11); /* page block thickness */
+  --cloth: var(--book-cloth, #082438);
+  --cloth-ink: var(--book-cloth-ink, #b9f12f);
+  --edge-a: #ebe6d8;
+  --edge-b: #d8d1bf;
+  position: relative;
+  display: grid;
+  place-items: center;
+  perspective: calc(var(--pw) * 6);
+  perspective-origin: 50% 30%;
+}
+
+.ob-book {
+  position: relative;
+  width: 0;
+  height: var(--ph);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg));
+}
+
+.ob-pose {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* Closed: three-quarter view, cover, spine and fore-edge all showing */
+  transform: rotateX(14deg) rotateY(-32deg) rotateZ(1.5deg) translateX(calc(var(--pw) * -0.5));
+  transition: transform 1.5s cubic-bezier(0.65, 0, 0.25, 1);
+}
+.ob-book[data-open] .ob-pose {
+  /* Open: lying back a little, both pages square to the reader */
+  transform: rotateX(24deg) rotateY(-3deg) rotateZ(-1.5deg) translateX(0);
+  transition-delay: 0.1s;
+}
+
+/* ---------------------------------------------------------------- covers */
+.ob-back,
+.ob-cover {
+  position: absolute;
+  top: calc(var(--pw) * -0.025);
+  left: 0;
+  width: calc(var(--pw) * 1.025);
+  height: calc(var(--ph) + var(--pw) * 0.05);
+  border-radius: 0 calc(var(--pw) * 0.02) calc(var(--pw) * 0.02) 0;
+  transform-style: preserve-3d;
+}
+.ob-back {
+  background: var(--cloth);
+  transform: translateZ(-1px);
+}
+.ob-cover {
+  transform-origin: 0 50%;
+  transform: translateZ(calc(var(--t) + 2px)) rotateY(0deg);
+  transition: transform 1.35s cubic-bezier(0.6, 0, 0.3, 1) 0.35s;
+}
+.ob-book[data-open] .ob-cover {
+  transform: translateZ(calc(var(--t) + 2px)) rotateY(-180deg);
+}
+.ob-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+}
+.ob-cover-out {
+  background-color: var(--cloth);
+  /* Bookcloth weave, barely there */
+  background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.05) 0 1px, transparent 1px 3px);
+  color: var(--cloth-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--pw) * 0.04);
+  padding: 0 calc(var(--pw) * 0.12);
+  text-align: center;
+  transform: translateZ(1px);
+}
+.ob-cover-title {
+  font-family: var(--font-serif);
+  font-size: calc(var(--pw) * 0.09);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.ob-cover-rule {
+  width: calc(var(--pw) * 0.12);
+  height: 2px;
+  background: currentColor;
+  opacity: 0.6;
+}
+.ob-cover-author {
+  font-family: var(--font-sans);
+  font-size: calc(var(--pw) * 0.042);
+  opacity: 0.85;
+}
+/* Once open, the cover's outside lies face-down under the pages */
+.ob-book[data-open] .ob-cover-out {
+  visibility: hidden;
+  transition: visibility 0s linear 1.2s;
+}
+.ob-cover-in {
+  /* Endpaper: plain laid paper the colour of the cloth, lightened */
+  background: var(--book-endpaper, #c9dca0);
+  transform: rotateY(180deg);
+  border-radius: calc(var(--pw) * 0.02) 0 0 calc(var(--pw) * 0.02);
+}
+
+.ob-spine {
+  position: absolute;
+  top: calc(var(--pw) * -0.025);
+  left: 0;
+  width: calc(var(--t) + 3px);
+  height: calc(var(--ph) + var(--pw) * 0.05);
+  background: color-mix(in srgb, var(--cloth) 85%, black);
+  color: var(--cloth-ink);
+  transform-origin: 0 50%;
+  transform: rotateY(-90deg);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: opacity 0.4s ease 1.2s;
+}
+.ob-spine span {
+  writing-mode: vertical-rl;
+  font-family: var(--font-serif);
+  font-size: calc(var(--t) * 0.42);
+  white-space: nowrap;
+}
+.ob-book[data-open] .ob-spine {
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------- pages */
+.ob-block {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: var(--pw);
+  height: var(--ph);
+  transform-style: preserve-3d;
+}
+.ob-edge {
+  position: absolute;
+  background: repeating-linear-gradient(var(--dir, 0deg), var(--edge-a) 0 1.2px, var(--edge-b) 1.2px 2px);
+}
+.ob-edge-fore {
+  --dir: 90deg;
+  top: 0;
+  left: var(--pw);
+  width: var(--t);
+  height: var(--ph);
+  transform-origin: 0 50%;
+  transform: translateZ(var(--t)) rotateY(90deg);
+}
+.ob-edge-head {
+  --dir: 0deg;
+  top: 0;
+  left: 0;
+  width: var(--pw);
+  height: var(--t);
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+}
+.ob-edge-tail {
+  --dir: 0deg;
+  top: var(--ph);
+  left: 0;
+  width: var(--pw);
+  height: var(--t);
+  transform-origin: 50% 0;
+  transform: translateZ(var(--t)) rotateX(-90deg);
+}
+
+.ob-page,
+.ob-page-inner {
+  position: absolute;
+  top: 0;
+  width: var(--pw);
+  height: var(--ph);
+  padding: calc(var(--pw) * 0.1) calc(var(--pw) * 0.09) calc(var(--pw) * 0.11);
+  background: var(--page-paper, #f4f1e8);
+  color: var(--page-ink, #2b2a24);
+  font-family: var(--font-serif);
+  font-size: var(--fs);
+  line-height: 1.62;
+  overflow: hidden;
+  text-align: left;
+}
+.ob-page-right {
+  left: 0;
+  transform: translateZ(calc(var(--t) + 0.5px));
+  /* The gutter: paper curving down into the binding */
+  box-shadow: inset calc(var(--pw) * 0.06) 0 calc(var(--pw) * 0.06) calc(var(--pw) * -0.05) rgb(40 32 20 / 0.22);
+  border-radius: 0 2px 2px 0;
+}
+.ob-page-left {
+  left: calc(var(--pw) * -1);
+  transform: translateZ(calc(var(--t) + 7px));
+  box-shadow: inset calc(var(--pw) * -0.06) 0 calc(var(--pw) * 0.06) calc(var(--pw) * -0.05) rgb(40 32 20 / 0.22);
+  border-radius: 2px 0 0 2px;
+  opacity: 0;
+  /* Fully hidden while closed: it only exists once the cover has swung over */
+  visibility: hidden;
+  transition: opacity 0.3s ease 0.95s, visibility 0s linear 0.95s;
+}
+.ob-book[data-open] .ob-page-left {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---------------------------------------------------------------- the turning leaf */
+.ob-leaf {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--pw) / 3);
+  height: var(--ph);
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--t) + 9px));
+}
+.ob-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--pw) / 3);
+  height: var(--ph);
+  transform-style: preserve-3d;
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+.ob-strip .ob-strip {
+  left: 100%;
+}
+.ob-strip-front,
+.ob-strip-back {
+  overflow: hidden;
+  border-radius: 0;
+}
+.ob-strip-back {
+  transform: rotateY(180deg);
+}
+.ob-strip-front::after,
+.ob-strip-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(30 24 14 / var(--shade, 0));
+  pointer-events: none;
+}
+.ob-page-clip {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * var(--pw) / -3);
+  width: var(--pw);
+  height: var(--ph);
+}
+.ob-page-clip-back {
+  left: calc((2 - var(--i)) * var(--pw) / -3);
+}
+
+/* ---------------------------------------------------------------- the shadow it casts */
+.ob-shadow {
+  position: absolute;
+  left: calc(var(--pw) * -0.95);
+  top: calc(var(--ph) * 0.06);
+  width: calc(var(--pw) * 1.9);
+  height: var(--ph);
+  background: rgb(2 14 24 / 0.45);
+  filter: blur(calc(var(--pw) * 0.08));
+  transform: translateZ(-6px);
+  opacity: 0.55;
+  transition: opacity 1s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-pose,
+  .ob-cover,
+  .ob-page-left,
+  .ob-spine {
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- page typography (sizes in em of --fs) */
+.bp-runhead {
+  font-style: italic;
+  font-size: 0.82em;
+  opacity: 0.6;
+  margin-bottom: 1.4em;
+}
+.bp-folio {
+  position: absolute;
+  bottom: 1.6em;
+  font-size: 0.82em;
+  opacity: 0.55;
+}
+.bp-folio-l { left: 2.2em; }
+.bp-folio-r { right: 2.2em; }
+.bp-p {
+  margin: 0 0 0.2em;
+  text-indent: 1.2em;
+  hyphens: auto;
+}
+.bp-first {
+  text-indent: 0;
+}
+.bp-first::first-letter {
+  float: left;
+  font-size: 3.15em;
+  line-height: 0.82;
+  padding: 0.06em 0.08em 0 0;
+}
+.bp-sent {
+  border-radius: 0.2em;
+  cursor: pointer;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.bp-sent:hover {
+  background: rgb(11 48 72 / 0.07);
+}
+.bp-sent[data-on] {
+  background: var(--page-mark, rgb(18 64 63 / 0.16));
+  box-shadow: 0 0 0 0.12em var(--page-mark, rgb(18 64 63 / 0.16));
+}
+.bp-part {
+  margin-top: 3.2em;
+  font-size: 0.9em;
+  font-style: italic;
+  opacity: 0.7;
+  text-align: center;
+}
+.bp-chapter-no {
+  margin-top: 2.6em;
+  text-align: center;
+  font-size: 0.95em;
+  opacity: 0.75;
+}
+.bp-chapter-title {
+  margin-top: 0.4em;
+  text-align: center;
+  font-size: 2.1em;
+  line-height: 1.1;
+}
+.bp-ornament {
+  margin: 1.4em 0;
+  text-align: center;
+  opacity: 0.5;
+}
+.bp-epigraph {
+  font-style: italic;
+  text-align: center;
+  font-size: 0.92em;
+  padding: 0 1.4em;
+  opacity: 0.8;
+}
+.bp-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bp-toc li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.18em 0 0.18em 1em;
+}
+.bp-toc li.bp-toc-part {
+  padding-left: 0;
+  margin-top: 0.7em;
+  font-style: italic;
+}
+.bp-toc-time {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+.bp-note {
+  text-indent: 0;
+  margin-bottom: 0.8em;
+}
+.bp-colophon {
+  margin-top: 1.4em;
+}
+.bp-colophon .bp-p {
+  text-indent: 0;
+  margin-bottom: 0.7em;
+}
+.bp-tight { margin-top: 0.4em; }
+.bp-small { font-size: 1.5em; margin-bottom: 0.8em; }
+
+/* ---------------------------------------------------------------- the light of the book
+ * --glow (0..1) scales everything: strong while it leafs through the story,
+ * softer while you listen so the lit sentence stays the brightest thing.
+ */
+.ob-stage {
+  --glow-rgb: 185 241 47;
+  --spark-rgb: 236 255 200;
+}
+
+/* An aura behind the book that breathes */
+.ob-aura {
+  position: absolute;
+  left: calc(var(--pw) * -1.35);
+  top: calc(var(--ph) * -0.25);
+  width: calc(var(--pw) * 2.7);
+  height: calc(var(--ph) * 1.5);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--glow-rgb) / 0.42), rgb(var(--glow-rgb) / 0.12) 55%, transparent 75%);
+  filter: blur(calc(var(--pw) * 0.06));
+  transform: translateZ(-12px);
+  opacity: calc(0.12 + var(--glow) * 0.33);
+  animation: ob-breathe 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ob-breathe {
+  0%, 100% { transform: translateZ(-12px) scale(0.94); }
+  50% { transform: translateZ(-12px) scale(1.06); }
+}
+
+/* The pages themselves glow at their edges and a soft light sweeps across them */
+.ob-page-right,
+.ob-page-left {
+  outline: 1px solid rgb(var(--glow-rgb) / calc(var(--glow) * 0.18));
+}
+.ob-book[data-open] .ob-page-right,
+.ob-book[data-open] .ob-page-left {
+  filter: drop-shadow(0 0 calc(var(--pw) * 0.035) rgb(var(--glow-rgb) / calc(var(--glow) * 0.22)));
+}
+.ob-page-right::after,
+.ob-page-left::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 240 / calc(var(--glow) * 0.3)) 50%, transparent 65%);
+  background-size: 260% 100%;
+  mix-blend-mode: soft-light;
+  animation: ob-sheen 3.6s ease-in-out infinite;
+}
+.ob-page-left::after {
+  animation-delay: -1.8s;
+}
+@keyframes ob-sheen {
+  0% { background-position: 130% 0; }
+  100% { background-position: -30% 0; }
+}
+
+/* A beam of light rising out of the binding */
+.ob-beam {
+  position: absolute;
+  left: calc(var(--pw) * -0.32);
+  top: calc(var(--ph) * -0.55);
+  width: calc(var(--pw) * 0.64);
+  height: calc(var(--ph) * 0.95);
+  background: radial-gradient(50% 60% at 50% 100%, rgb(var(--spark-rgb) / 0.55), rgb(var(--glow-rgb) / 0.18) 45%, transparent 75%);
+  filter: blur(calc(var(--pw) * 0.03));
+  transform: translateZ(calc(var(--t) + 14px)) rotateX(-70deg);
+  transform-origin: 50% 100%;
+  opacity: calc(var(--glow) * 0.5);
+  mix-blend-mode: screen;
+  animation: ob-flicker 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.ob-book:not([data-open]) .ob-beam,
+.ob-book:not([data-open]) .ob-sparks {
+  opacity: 0;
+}
+@keyframes ob-flicker {
+  0%, 100% { opacity: calc(var(--glow) * 0.4); }
+  45% { opacity: calc(var(--glow) * 0.55); }
+  60% { opacity: calc(var(--glow) * 0.45); }
+}
+
+/* Sparks of light lifting off the pages */
+.ob-sparks {
+  position: absolute;
+  left: 0;
+  top: calc(var(--ph) * 0.15);
+  width: 0;
+  height: calc(var(--ph) * 0.7);
+  transform: translateZ(calc(var(--t) + 16px));
+  transform-style: preserve-3d;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.ob-sparks span {
+  position: absolute;
+  left: calc(var(--x) * var(--pw) * 0.75);
+  bottom: 0;
+  width: calc(var(--pw) * 0.012 * var(--s));
+  height: calc(var(--pw) * 0.012 * var(--s));
+  border-radius: 50%;
+  background: rgb(var(--spark-rgb));
+  box-shadow: 0 0 calc(var(--pw) * 0.02) rgb(var(--glow-rgb) / 0.55), 0 0 calc(var(--pw) * 0.01) rgb(255 255 255 / 0.8);
+  opacity: 0;
+  animation: ob-rise var(--dur) cubic-bezier(0.25, 0.6, 0.35, 1) var(--d) infinite;
+}
+@keyframes ob-rise {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.6); }
+  15% { opacity: calc(var(--glow) * 1); }
+  100% { opacity: 0; transform: translate3d(calc(var(--x) * var(--pw) * 0.2), calc(var(--ph) * -0.9), 0) scale(1.1); }
+}
+
+/* The turning leaf catches the light at its edge */
+.ob-strip-front,
+.ob-strip-back {
+  background: var(--page-paper, #f2f0e9);
+}
+.ob-strip-front,
+.ob-strip-back {
+  box-shadow: 0 0 calc(var(--pw) * 0.03) rgb(var(--glow-rgb) / calc(var(--glow) * 0.2));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-aura, .ob-beam, .ob-sparks span, .ob-page-right::after, .ob-page-left::after { animation: none !important; }
+  .ob-sparks { display: none; }
+}
+
+/* Title page and the blank endpaper facing it */
+.bp-titlepage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 2em;
+}
+.bp-title {
+  font-size: 2.3em;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.bp-byline {
+  font-style: italic;
+  font-size: 1em;
+  opacity: 0.75;
+}
+.bp-imprint {
+  margin-top: auto;
+  font-size: 0.8em;
+  opacity: 0.55;
+}
+.bp-endpaper {
+  position: absolute;
+  inset: 0;
+  background: var(--book-endpaper, #c9dca0);
+}
+
+/* Closed, the book floats gently while it waits to be opened */
+.ob-book:not([data-open]) .ob-pose {
+  animation: ob-float 3.2s ease-in-out infinite;
+}
+@keyframes ob-float {
+  0%, 100% { transform: rotateX(14deg) rotateY(-32deg) rotateZ(1.5deg) translateX(calc(var(--pw) * -0.5)) translateY(0); }
+  50% { transform: rotateX(16deg) rotateY(-28deg) rotateZ(1deg) translateX(calc(var(--pw) * -0.5)) translateY(calc(var(--pw) * -0.04)); }
+}

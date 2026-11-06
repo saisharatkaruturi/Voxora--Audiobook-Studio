@@ -1,0 +1,89 @@
+{
+ "passage": [
+  "At 11:11 p.m., the oldest book in the Starlight Archive began to read itself aloud. Asha Rao had worked the night shift for three hundred and twelve nights, and nothing in the archive had ever spoken before.",
+  "The voice came from the top shelf, soft and unhurried, the way her grandmother used to read to her during monsoon power cuts. She climbed the brass ladder with a torch between her teeth. On the open page, one sentence was glowing, and it was about her."
+ ],
+ "voices": {
+  "aria": [
+   {
+    "text": "At 11:11 p.m., the oldest book in the Starlight Archive began to read itself aloud.",
+    "t0": 0.1,
+    "t1": 6.275
+   },
+   {
+    "text": "Asha Rao had worked the night shift for three hundred and twelve nights, and nothing in the archive had ever spoken before.",
+    "t0": 6.225,
+    "t1": 13.512
+   },
+   {
+    "text": "The voice came from the top shelf, soft and unhurried, the way her grandmother used to read to her during monsoon power cuts.",
+    "t0": 13.512,
+    "t1": 21.312
+   },
+   {
+    "text": "She climbed the brass ladder with a torch between her teeth.",
+    "t0": 21.312,
+    "t1": 25.262
+   },
+   {
+    "text": "On the open page, one sentence was glowing, and it was about her.",
+    "t0": 25.262,
+    "t1": 29.863
+   }
+  ],
+  "ryan": [
+   {
+    "text": "At 11:11 p.m., the oldest book in the Starlight Archive began to read itself aloud.",
+    "t0": 0.1,
+    "t1": 6.138
+   },
+   {
+    "text": "Asha Rao had worked the night shift for three hundred and twelve nights, and nothing in the archive had ever spoken before.",
+    "t0": 6.088,
+    "t1": 13.162
+   },
+   {
+    "text": "The voice came from the top shelf, soft and unhurried, the way her grandmother used to read to her during monsoon power cuts.",
+    "t0": 13.162,
+    "t1": 20.375
+   },
+   {
+    "text": "She climbed the brass ladder with a torch between her teeth.",
+    "t0": 20.375,
+    "t1": 24.113
+   },
+   {
+    "text": "On the open page, one sentence was glowing, and it was about her.",
+    "t0": 24.113,
+    "t1": 28.825
+   }
+  ],
+  "neerja": [
+   {
+    "text": "At 11:11 p.m., the oldest book in the Starlight Archive began to read itself aloud.",
+    "t0": 0.1,
+    "t1": 7.275
+   },
+   {
+    "text": "Asha Rao had worked the night shift for three hundred and twelve nights, and nothing in the archive had ever spoken before.",
+    "t0": 7.225,
+    "t1": 15.075
+   },
+   {
+    "text": "The voice came from the top shelf, soft and unhurried, the way her grandmother used to read to her during monsoon power cuts.",
+    "t0": 15.075,
+    "t1": 23.875
+   },
+   {
+    "text": "She climbed the brass ladder with a torch between her teeth.",
+    "t0": 23.875,
+    "t1": 28.225
+   },
+   {
+    "text": "On the open page, one sentence was glowing, and it was about her.",
+    "t0": 28.225,
+    "t1": 33.4
+   }
+  ]
+ }
+}

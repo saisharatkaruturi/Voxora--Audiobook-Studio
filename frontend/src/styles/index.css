@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+/*
+ * VOXORA: deep midnight teal, soft pearl, and one lime-neon accent. Dark is the
+ * signature look (pearl on midnight); light swaps them (midnight on pearl). Lime
+ * marks what matters: the action, the spoken sentence, progress, the sound.
+ */
+@theme {
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Literata", "Iowan Old Style", Georgia, serif;
+
+  /* Surfaces (dark): midnight teal #0B3048 and its steps */
+  --color-ink-950: #0b3048;
+  --color-ink-900: #0e3753;
+  --color-ink-850: #113e5c;
+  --color-ink-800: #144566;
+  --color-ink-700: #1a5075;
+  --color-ink-600: #245e86;
+  --color-ink-500: #4a7a9c;
+  --color-plum-900: #0d3450;
+  --color-plum-800: #134262;
+
+  /* Text (dark): soft pearl #F2F0E9 */
+  --color-paper-50: #fbfaf6;
+  --color-paper-100: #f2f0e9;
+  --color-paper-200: #e1dfd6;
+  --color-paper-300: #c9cdcb;
+  --color-paper-400: #a9b6be;
+  --color-paper-500: #8ea0ac;
+
+  /* The accent: lime neon #B9F12F */
+  --color-orchid-300: #d2f77a;
+  --color-orchid-400: #c6f455;
+  --color-orchid-500: #b9f12f;
+  --color-orchid-600: #a3d921;
+  --color-orchid-700: #86b515;
+  --color-mint-300: #d2f77a;
+  --color-mint-400: #c6f455;
+  --color-mint-500: #b9f12f;
+  --color-mint-600: #a3d921;
+
+  /* States only */
+  --color-amber-300: #ffd48a;
+  --color-amber-400: #ffc25e;
+  --color-amber-500: #f5ad3a;
+  --color-sage-400: #b9f12f;
+  --color-rose-400: #ff8f80;
+  --color-sky-400: #9fd0ff;
+
+  --radius-card: 1rem;
+  --radius-control: 999px;
+
+  /* Nothing at rest casts a shadow; a book cover is a physical object, so it keeps a contact shadow. */
+  --shadow-soft: none;
+  --shadow-cover: 0 1px 1px rgb(0 0 0 / 0.12), 0 18px 30px -18px rgb(0 0 0 / 0.45);
+  --shadow-glow: none;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-up: fade-up 0.45s var(--ease-out-soft) both;
+  --animate-pulse-soft: pulse-soft 1.8s ease-in-out infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes vx-bar {
+    0%, 100% { transform: scaleY(0.45); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes vx-open-left {
+    from { transform: rotateY(86deg); }
+    to { transform: rotateY(-14deg); }
+  }
+  @keyframes vx-open-right {
+    from { transform: rotateY(-86deg); }
+    to { transform: rotateY(14deg); }
+  }
+  @keyframes vx-bloom {
+    0% { opacity: 0; transform: scale(0.82); filter: blur(6px) brightness(1.6); }
+    60% { opacity: 1; filter: blur(0) brightness(1.25); }
+    100% { opacity: 1; transform: none; filter: none; }
+  }
+  @keyframes vx-rise {
+    from { opacity: 0; transform: translateY(10px); letter-spacing: 0.3em; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes vx-drift {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    33% { transform: translate3d(4px, -7px, 0); }
+    66% { transform: translate3d(-3px, -3px, 0); }
+  }
+  @keyframes vx-glow-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(6vw, 4vh, 0) scale(1.08); }
+  }
+  @keyframes vx-glow-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-5vw, -6vh, 0) scale(1.1); }
+  }
+  @keyframes vx-sheet-fly {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 1; filter: blur(0); }
+    55% { transform: translate(140px, -120px) rotate(14deg) rotateY(-40deg) scale(0.7); opacity: 0.8; filter: blur(0.5px); }
+    100% { transform: translate(300px, -60px) rotate(24deg) rotateY(-70deg) scale(0.25); opacity: 0; filter: blur(3px); }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+}
+
+/* ------------------------------------------------------------------ themes
+ * Dark is the default. [data-theme="light"] remaps every design token, so
+ * components never need theme-specific classes. `--color-white` is remapped to
+ * ink in light mode: every `white/[x]` overlay becomes a soft ink tint there.
+ */
+:root {
+  --sky: linear-gradient(180deg, #041420 0%, #08243a 38%, #0b3048 70%, #0f3a55 100%);
+  --page-bg: #0b3048;
+  --surface-bg: #0e3753;
+  --surface-border: transparent;
+  --surface-shadow: none;
+  --player-veil: rgb(11 48 72 / 0.74);
+  --player-aurora-a: transparent;
+  --player-aurora-b: transparent;
+  --panel-bg: #0e3753;
+  --panel-border: transparent;
+  --panel-shadow: none;
+  /* Apple-style glass, only on what floats over content: bars, menus, dialogs. */
+  --glass-bg: rgb(14 55 83 / 0.55);
+  --glass-border: rgb(242 240 233 / 0.12);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.1);
+  --glass-shadow: 0 14px 36px -16px rgb(2 14 24 / 0.7);
+  --neo-bg: #144566;
+  --neo-shadow: none;
+  --on-accent: #0b3048;
+  --glow-a: transparent;
+  --glow-b: transparent;
+  --glow-c: transparent;
+  --grain-opacity: 0;
+  /* The background motion: lines of a page becoming sound, in lime */
+  --wave-ink: 185 241 47;
+  --wave-alpha: 0.2;
+  /* The book: midnight cloth stamped in lime, pearl pages, a lime highlighter */
+  --book-cloth: #082438;
+  --book-cloth-ink: #b9f12f;
+  --book-endpaper: #ddd8cb;
+  --page-paper: #f2f0e9;
+  --page-ink: #1d2a33;
+  --page-mark: rgb(185 241 47 / 0.6);
+  --mark: rgb(185 241 47 / 0.35);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --sky: linear-gradient(180deg, #e6ebee 0%, #f2f0e9 60%);
+  --page-bg: #f2f0e9;
+  --surface-bg: #e8e6de;
+  --surface-border: transparent;
+  --surface-shadow: none;
+  --player-veil: rgb(242 240 233 / 0.8);
+  --player-aurora-a: transparent;
+  --player-aurora-b: transparent;
+  --panel-bg: #e8e6de;
+  --panel-border: transparent;
+  --panel-shadow: none;
+  --glass-bg: rgb(250 249 245 / 0.6);
+  --glass-border: rgb(255 255 255 / 0.8);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.95);
+  --glass-shadow: 0 14px 36px -18px rgb(11 48 72 / 0.45);
+  --neo-bg: #e8e6de;
+  --neo-shadow: none;
+  --on-accent: #0b3048;
+  --glow-a: transparent;
+  --glow-b: transparent;
+  --glow-c: transparent;
+  --grain-opacity: 0;
+  --wave-ink: 11 48 72;
+  --wave-alpha: 0.16;
+  --mark: rgb(185 241 47 / 0.55);
+
+  --color-white: #0b3048;
+  --color-ink-950: #f2f0e9;
+  --color-ink-900: #eae8e0;
+  --color-ink-850: #faf9f5;
+  --color-ink-800: #e5e3da;
+  --color-ink-700: #d9d7cd;
+  --color-ink-600: #c6c4b9;
+  --color-ink-500: #9c9a90;
+  --color-plum-900: #eae8e0;
+  --color-plum-800: #dfddd3;
+
+  --color-paper-50: #082538;
+  --color-paper-100: #0b3048;
+  --color-paper-200: #123a54;
+  --color-paper-300: #24485f;
+  --color-paper-400: #3c5a6e;
+  --color-paper-500: #4e6a7d;
+
+  /* Lime fills stay neon; lime used as text darkens to stay readable on pearl. */
+  --color-orchid-300: #3f6600;
+  --color-orchid-400: #4a7a00;
+  --color-orchid-500: #b9f12f;
+  --color-orchid-600: #a3d921;
+  --color-orchid-700: #86b515;
+  --color-mint-300: #3f6600;
+  --color-mint-400: #4a7a00;
+  --color-mint-500: #b9f12f;
+  --color-mint-600: #a3d921;
+
+  --color-amber-300: #8a5208;
+  --color-amber-400: #8a5208;
+  --color-amber-500: #7a4806;
+  --color-sage-400: #4a7a00;
+  --color-rose-400: #a3261c;
+  --color-sky-400: #2f5d8a;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--page-bg);
+    transition: background-color 0.4s ease;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-transparent font-sans text-paper-100 antialiased;
+    min-height: 100dvh;
+  }
+  ::selection { background: var(--mark); }
+  :focus-visible {
+    outline: 2px solid var(--color-orchid-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button, [role="button"] { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  h1, h2, h3 { text-wrap: balance; }
+
+  * { scrollbar-width: thin; scrollbar-color: var(--color-ink-600) transparent; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Frosted surface: used sparingly (nav, player bar, dialogs). */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+  }
+  /* Soft neomorphic control (play buttons, small toggles). */
+  .neo {
+    background: var(--neo-bg);
+    box-shadow: var(--neo-shadow);
+  }
+  .surface {
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--surface-shadow);
+    border-radius: var(--radius-card);
+  }
+  .eyebrow {
+    @apply text-[13px] font-semibold text-paper-400;
+  }
+  /* A lit glass panel for the listening room (reader, controls deck). */
+  .panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    box-shadow: var(--panel-shadow);
+    border-radius: var(--radius-card);
+  }
+  .reading {
+    @apply font-serif text-[1.125rem] leading-[1.75] text-paper-100;
+  }
+  input[type="range"].range {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-ink-600;
+    accent-color: var(--color-orchid-500);
+  }
+  input[type="range"].range::-webkit-slider-thumb {
+    @apply size-4 appearance-none rounded-full bg-paper-100 shadow;
+  }
+  input[type="range"].range::-moz-range-thumb {
+    @apply size-4 rounded-full border-0 bg-paper-100;
+  }
+}
+
+/* Landing: the process slip, its zigzag tear and dot leaders */
+.slip {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  border-radius: 6px 6px 0 0;
+}
+.leader {
+  height: 4px;
+  align-self: center;
+  background-image: radial-gradient(circle, currentColor 1.2px, transparent 1.6px);
+  background-size: 8px 4px;
+  background-repeat: repeat-x;
+  opacity: 0.45;
+}

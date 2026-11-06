@@ -1,0 +1,35 @@
+# Secrets & local config
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Backend runtime data (database, uploads, generated audio, caches, models)
+backend/data/
+!backend/data/.gitkeep
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/coverage/
+*.tsbuildinfo
+
+# Old prototype
+legacy/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log

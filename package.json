@@ -1,0 +1,12 @@
+{
+  "name": "voxora",
+  "private": true,
+  "description": "VOXORA — Where stories find their voice. AI audiobook studio.",
+  "scripts": {
+    "setup": "npm --prefix frontend install && node scripts/setup-backend.mjs",
+    "backend": "node scripts/run-backend.mjs",
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "node scripts/run-backend.mjs -m pytest -q && npm --prefix frontend test"
+  }
+}
