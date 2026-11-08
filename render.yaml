@@ -4,7 +4,7 @@
 # Lite settings keep memory inside 512 MB (measured peak ~230 MB on a full book):
 # online voices only (no local voice engine), keyword search for Ask the Book
 # (answers still come from Gemini when GEMINI_API_KEY is set), one narration job
-# at a time, and no OCR for scanned books.
+# at a time, and the light Tesseract engine for scanned pages.
 services:
   - type: web
     name: voxora
@@ -46,10 +46,10 @@ services:
         value: "3"
       - key: ENCODE_CONCURRENCY
         value: "1"
-      # Scanned books need OCR, whose models alone take ~400 MB: off on the free plan.
-      # On a bigger plan, delete OCR_PROVIDER (or set auto) and keep OCR_LOW_MEMORY/OCR_DPI.
+      # Scanned pages: Tesseract runs as its own small process, so it fits in 512 MB
+      # (RapidOCR/EasyOCR models alone take ~400 MB). On a bigger plan, auto also works.
       - key: OCR_PROVIDER
-        value: none
+        value: tesseract
       - key: OCR_LOW_MEMORY
         value: "true"
       - key: OCR_DPI

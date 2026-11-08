@@ -19,9 +19,11 @@ RUN npm run build
 # ---------------------------------------------------------------- the backend
 FROM python:3.13-slim
 
-# OpenCV (used by OCR) needs these system libraries.
+# OpenCV (used by OCR) needs these system libraries. Tesseract is the light OCR
+# engine (its own process, no models held in memory), so scanned pages work on 512 MB.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 libgomp1 \
+    tesseract-ocr tesseract-ocr-eng tesseract-ocr-hin tesseract-ocr-tel \
  && rm -rf /var/lib/apt/lists/*
 
 # Hugging Face runs containers as user 1000.
