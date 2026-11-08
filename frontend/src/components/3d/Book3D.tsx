@@ -35,8 +35,8 @@ function coverTexture(): THREE.CanvasTexture {
   x.fillRect(0, 0, 512, 720);
   // mark: page + waveform
   const g = x.createLinearGradient(170, 250, 350, 380);
-  g.addColorStop(0, "#0B3048");
-  g.addColorStop(1, "#B9F12F");
+  g.addColorStop(0, "#140B26");
+  g.addColorStop(1, "#C45CFF");
   x.fillStyle = g;
   x.beginPath();
   x.moveTo(250, 395);

@@ -5,8 +5,8 @@
  */
 .ob-stage {
   --t: calc(var(--pw) * 0.11); /* page block thickness */
-  --cloth: var(--book-cloth, #082438);
-  --cloth-ink: var(--book-cloth-ink, #b9f12f);
+  --cloth: var(--book-cloth, #1c0f36);
+  --cloth-ink: var(--book-cloth-ink, #d283ff);
   --edge-a: #ebe6d8;
   --edge-b: #d8d1bf;
   position: relative;
@@ -324,7 +324,7 @@
   -webkit-box-decoration-break: clone;
 }
 .bp-sent:hover {
-  background: rgb(11 48 72 / 0.07);
+  background: rgb(60 20 110 / 0.07);
 }
 .bp-sent[data-on] {
   background: var(--page-mark, rgb(18 64 63 / 0.16));
@@ -400,8 +400,8 @@
  * softer while you listen so the lit sentence stays the brightest thing.
  */
 .ob-stage {
-  --glow-rgb: 185 241 47;
-  --spark-rgb: 236 255 200;
+  --glow-rgb: 196 92 255;
+  --spark-rgb: 240 220 255;
 }
 
 /* An aura behind the book that breathes */

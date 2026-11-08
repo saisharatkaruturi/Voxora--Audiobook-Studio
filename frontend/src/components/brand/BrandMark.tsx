@@ -13,7 +13,7 @@ export function BrandMark({ className, tile = false, animated = false, title }: 
   ];
   return (
     <svg viewBox="0 0 48 48" className={cn("size-8 text-orchid-500 [:root[data-theme=light]_&]:text-paper-100", className)} role={title ? "img" : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
-      {tile && <rect width="48" height="48" rx="12" fill="#0b3048" />}
+      {tile && <rect width="48" height="48" rx="12" fill="#140b26" />}
       {/* the page */}
       <path d="M23 38c-5.2-3.4-11.3-4-17-2.1V13.2c5.7-1.9 11.8-1.3 17 2.1z" fill="currentColor" />
       <path d="M23 15.3v22.7" stroke="var(--page-bg)" strokeOpacity=".5" strokeWidth="1" />

@@ -31,7 +31,7 @@ interface Shot {
   len: number;
 }
 
-const TINTS = ["255,255,255", "242,240,233", "214,236,255", "220,250,170"];
+const TINTS = ["255,255,255", "243,239,250", "226,214,255", "238,200,255"];
 
 export function GalaxySky({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
@@ -67,16 +67,16 @@ export function GalaxySky({ className }: { className?: string }) {
       const c = n.getContext("2d")!;
       const blobs = light
         ? [
-            [0.25, 0.3, 0.45, "11,48,72", 0.08],
-            [0.75, 0.55, 0.5, "185,241,47", 0.1],
-            [0.55, 0.85, 0.4, "60,90,140", 0.06],
+            [0.25, 0.3, 0.45, "110,60,180", 0.08],
+            [0.75, 0.55, 0.5, "196,92,255", 0.1],
+            [0.55, 0.85, 0.4, "120,90,220", 0.06],
           ]
         : [
-            [0.22, 0.28, 0.5, "40,110,160", 0.45],
-            [0.72, 0.42, 0.42, "185,241,47", 0.16],
-            [0.58, 0.78, 0.55, "70,60,170", 0.3],
-            [0.12, 0.8, 0.35, "20,140,150", 0.3],
-            [0.88, 0.15, 0.3, "120,190,255", 0.18],
+            [0.22, 0.28, 0.5, "90,40,170", 0.45],
+            [0.72, 0.42, 0.42, "196,92,255", 0.18],
+            [0.58, 0.78, 0.55, "80,50,190", 0.3],
+            [0.12, 0.8, 0.35, "200,60,170", 0.22],
+            [0.88, 0.15, 0.3, "170,130,255", 0.18],
           ];
       for (const [x, y, r, rgb, a] of blobs as [number, number, number, string, number][]) {
         const g = c.createRadialGradient(x * n.width, y * n.height, 0, x * n.width, y * n.height, r * n.width);
@@ -168,7 +168,7 @@ export function GalaxySky({ className }: { className?: string }) {
         let py = s.y * h - pointer.y * 14 * s.depth - scroll * (0.02 + s.depth * 0.08);
         py = ((py % h) + h) % h;
         const a = Math.min(1, tw * (0.35 + s.depth * 0.75) * (1 + level * 0.9));
-        const col = light ? `rgba(11,48,72,${a * 0.5})` : `rgba(${s.tint},${a})`;
+        const col = light ? `rgba(40,20,80,${a * 0.5})` : `rgba(${s.tint},${a})`;
         ctx.fillStyle = col;
         if (s.r > 1.4 && !light) {
           // bright stars get a soft halo and a faint cross glint
@@ -202,8 +202,8 @@ export function GalaxySky({ className }: { className?: string }) {
         const tx = s.x - (s.vx / mag) * s.len;
         const ty = s.y - (s.vy / mag) * s.len;
         const g = ctx.createLinearGradient(s.x, s.y, tx, ty);
-        const head = light ? "11,48,72" : "245,255,220";
-        const tail = light ? "11,48,72" : "185,241,47";
+        const head = light ? "40,20,80" : "248,235,255";
+        const tail = light ? "40,20,80" : "196,92,255";
         g.addColorStop(0, `rgba(${head},${0.95 * fade})`);
         g.addColorStop(0.25, `rgba(${tail},${0.5 * fade})`);
         g.addColorStop(1, `rgba(${tail},0)`);

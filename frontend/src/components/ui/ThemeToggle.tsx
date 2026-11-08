@@ -48,14 +48,14 @@ export function ThemePicker() {
             style={{
               background:
                 value === "light"
-                  ? "#f2f0e9"
+                  ? "#f6f3fb"
                   : value === "dark"
-                    ? "#0b3048"
-                    : "linear-gradient(90deg, #f2f0e9 0 50%, #0b3048 50% 100%)",
+                    ? "#140b26"
+                    : "linear-gradient(90deg, #f6f3fb 0 50%, #140b26 50% 100%)",
             }}
           >
-            <span className={cn("absolute top-3 left-3 h-2 w-12 rounded-full", value === "dark" ? "bg-[#f2f0e9]/80" : "bg-[#0b3048]/70")} />
-            <span className="absolute top-7 left-3 h-1.5 w-20 rounded-full bg-[#b9f12f]" />
+            <span className={cn("absolute top-3 left-3 h-2 w-12 rounded-full", value === "dark" ? "bg-[#f6f3fb]/80" : "bg-[#140b26]/70")} />
+            <span className="absolute top-7 left-3 h-1.5 w-20 rounded-full bg-[#c45cff]" />
             <span className={cn("absolute right-3 bottom-3 h-6 w-10 rounded-lg", value === "dark" ? "bg-[rgb(255_255_255/0.1)]" : "bg-[rgb(255_255_255/0.85)] shadow")} />
           </div>
           <div className="flex items-center gap-2 px-3 py-2.5">
