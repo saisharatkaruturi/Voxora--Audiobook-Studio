@@ -173,67 +173,36 @@ Enjoy chapter-based playback, synchronized reading, and personalized listening c
 Explore the VOXORA interface, designed to deliver an immersive AI-powered audiobook experience.
 
 ### 01 — Welcome to VOXORA
-*Where Stories Find Their Voice.*
+*Where stories find their voice.*
 
-![VOXORA Landing Page](./screenshots/landing%20page.png)
+![VOXORA Landing Page](./screenshots/01-landing.png)
 
 ### 02 — How VOXORA Works
-*From books to immersive audio experiences.*
+*Bring your book, give it a voice, start listening.*
 
-![How VOXORA Works](./screenshots/landing%20page%202.png)
+![How VOXORA Works](./screenshots/02-how-it-works.png)
 
 ### 03 — Powerful Platform Features
-*Intelligent document processing, natural narration, and interactive reading.*
+*Reads any book, finds the real chapters, natural narration, a cast of voices, and Ask the Book.*
 
-![VOXORA Features](./screenshots/landing%20page%203.png)
+![VOXORA Features](./screenshots/03-features.png)
 
-### 04 — Personalized Listening
-*Your books, your pace, your listening experience.*
+### 04 — Create Your Audiobook
+*Drop in a PDF, EPUB, DOCX, TXT or scanned pages and watch it come to life.*
 
-![VOXORA Listening Experience](./screenshots/landing%20page%204.png)
+![VOXORA Audiobook Creation](./screenshots/04-create-audiobook.png)
 
-### 05 — Create Your Audiobook
-*Transform documents into engaging audiobook experiences.*
+### 05 — AI Voice Studio
+*Discover and audition local and cloud narrators.*
 
-![VOXORA Audiobook Creation](./screenshots/audio%20book%20creating.png)
+![VOXORA Voice Studio](./screenshots/05-voice-studio.png)
 
-### 06 — AI Voice Studio
-*Discover and audition natural AI narrators.*
+### 06 — Light Mode
+*The same experience, in a bright daytime theme.*
 
-![VOXORA Voice Studio](./screenshots/Studio.png)
+![VOXORA Light Mode Landing](./screenshots/06-light-landing.png)
 
-### 07 — Explore Narrator Voices
-*Choose from local and cloud-based voices.*
-
-![VOXORA Narrator Collection](./screenshots/Stdio.png)
-
-### 08 — Additional Product Preview
-
-![VOXORA Additional Screenshot](./screenshots/Screenshot%202026-11-06%20013817.png)
-
-### 04. Listen Beyond the Page
-
-A personalized listening experience with resume functionality, bookmarks, playback controls, and reading continuity.
-
-![VOXORA Listening Experience](screenshots/04-listening-experience.png)
-
-### 05. Create Your Audiobook
-
-Import a document and configure the reading experience before adding it to your VOXORA library.
-
-![Create Audiobook](screenshots/05-create-audiobook.png)
-
-### 06. Give Your Story a Voice
-
-The Voice Studio allows users to browse, search, filter, and audition available narrators.
-
-![VOXORA Voice Studio](screenshots/06-voice-studio.png)
-
-### 07. Explore the Voice Collection
-
-Discover a wider collection of available local and cloud-based narrators, languages, and voice styles.
-
-![VOXORA Voice Collection](screenshots/07-voice-catalog.png)
+![VOXORA Light Mode Voice Studio](./screenshots/07-light-voice-studio.png)
 
 ---
 
