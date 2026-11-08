@@ -26,7 +26,7 @@ export function supabase(): Promise<SupabaseClient | null> {
     const cfg = await authConfig();
     if (cfg.provider !== "supabase" || !cfg.supabase_url || !cfg.supabase_anon_key) return null;
     const { createClient } = await import("@supabase/supabase-js");
-    const client = createClient(cfg.supabase_url, cfg.supabase_anon_key, {
+    const client = createClient(cfg.supabase_url.trim(), cfg.supabase_anon_key.trim(), {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "pkce" },
     });
     client.auth.onAuthStateChange((event, session) => {
