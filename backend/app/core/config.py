@@ -200,6 +200,9 @@ def get_settings() -> Settings:
         settings.secret_key = _load_or_create_secret(BACKEND_DIR / "data" / ".secret_key")
     if settings.supabase_url:
         settings.supabase_url = settings.supabase_url.rstrip("/")
+    # A blank DATABASE_URL (e.g. an empty field in a host's dashboard) means the local SQLite default.
+    if not settings.database_url.strip():
+        settings.database_url = Settings.model_fields["database_url"].default
     # Accept Postgres links exactly as Supabase / Render / Heroku print them.
     for prefix in ("postgresql://", "postgres://"):
         if settings.database_url.startswith(prefix):
