@@ -32,6 +32,7 @@ class Book(UUIDPk, Timestamps, Base):
     series: Mapped[str | None] = mapped_column(String(300), index=True)
     series_index: Mapped[float | None] = mapped_column(Float)  # 1, 2, 2.5 (novella)...
     classified_at: Mapped[str | None] = mapped_column(String(40))  # when title/author/genre/series were tidied
+    book_info: Mapped[dict | None] = mapped_column(JSON)  # {"about": ..., "ratings": {...}} from classification + Open Library
     year: Mapped[str | None] = mapped_column(String(16))
     language: Mapped[str | None] = mapped_column(String(16))
     languages: Mapped[list] = mapped_column(JSON, default=list)  # all detected languages

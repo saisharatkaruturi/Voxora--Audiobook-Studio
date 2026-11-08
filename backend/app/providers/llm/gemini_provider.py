@@ -79,7 +79,9 @@ class GeminiLLM(LLMProvider):
         return info
 
     # ------------------------------------------------------------------ generation
-    def complete(self, system: str, messages: list[ChatMessage], *, max_tokens: int = 2000, json_schema: dict | None = None) -> str:
+    def complete(self, system: str, messages: list[ChatMessage], *, max_tokens: int = 2000, json_schema: dict | None = None, prefer_fast: bool = False) -> str:
+        """`prefer_fast`: for interactive requests (the search bar), try the Flash-Lite
+        models first with a shorter timeout; they answer in seconds, not minutes."""
         if not self.api_key:
             raise ProviderUnavailableError(self.name, "Set GEMINI_API_KEY to use Gemini.", retryable=False)
         model = self._pick_model()
@@ -92,10 +94,20 @@ class GeminiLLM(LLMProvider):
             body["generationConfig"]["responseMimeType"] = "application/json"
             body["generationConfig"]["responseJsonSchema"] = json_schema
         now = time.monotonic()
-        order = [m for m in [model, *self._fallbacks] if self._cooldown.get(m, 0) <= now] or [model]
+        chain = [model, *self._fallbacks]
+        if prefer_fast:
+            chain = [m for m in chain if "lite" in m and "preview" not in m] + [m for m in chain if "lite" not in m or "preview" in m]
+        order = [m for m in chain if self._cooldown.get(m, 0) <= now] or [model]
+        timeout = min(self.timeout, 30) if prefer_fast else self.timeout
         resp = None
         for candidate in order:
-            resp = self._post(candidate, body)
+            try:
+                resp = self._post(candidate, body, timeout)
+            except ProviderTimeoutError:
+                if not prefer_fast or candidate == order[-1]:
+                    raise
+                self._cooldown[candidate] = time.monotonic() + 120
+                continue
             if resp.status_code not in (429, 500, 503, 404):
                 break
             # Overloaded / unavailable: skip this model for a while and try the next-best Flash model.
@@ -121,11 +133,11 @@ class GeminiLLM(LLMProvider):
         # Skip any "thought" parts some models return; keep the answer text.
         return "".join(p.get("text", "") for p in parts if not p.get("thought"))
 
-    def _post(self, model: str, body: dict) -> httpx.Response:
+    def _post(self, model: str, body: dict, timeout: float | None = None) -> httpx.Response:
         self.last_model = model
         for attempt in range(2):
             try:
-                resp = httpx.post(f"{API}/models/{model}:generateContent", headers={"x-goog-api-key": self.api_key or ""}, json=body, timeout=self.timeout)
+                resp = httpx.post(f"{API}/models/{model}:generateContent", headers={"x-goog-api-key": self.api_key or ""}, json=body, timeout=timeout or self.timeout)
             except httpx.TimeoutException as exc:
                 if attempt == 1:
                     raise ProviderTimeoutError(self.name, "Gemini took too long to respond.") from exc

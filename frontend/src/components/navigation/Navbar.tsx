@@ -2,10 +2,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { AudioLines, Bell, Check, Compass, Library, Loader2, LogOut, Plus, Search, Settings, ShieldCheck, X } from "lucide-react";
-import { BrandMark } from "@/components/brand/BrandMark";
 import { Logo } from "@/components/brand/BrandWordmark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { jobsApi, systemApi } from "@/services/api";
+import { BookSearch } from "@/components/navigation/BookSearch";
+import { jobsApi } from "@/services/api";
 import { useAuth } from "@/stores/auth";
 import { usePlayer } from "@/stores/player";
 import type { Job } from "@/types/api";
@@ -247,66 +247,7 @@ function MenuLink({ to, icon, children, onClick }: { to: string; icon: ReactNode
   );
 }
 
-/** Ctrl/Cmd+K: jump to any book or chapter. */
+/** Ctrl/Cmd+K: jump to any book or chapter, or find any published book. */
 function SearchPalette({ onClose }: { onClose: () => void }) {
-  const [q, setQ] = useState("");
-  const [debounced, setDebounced] = useState("");
-  const navigate = useNavigate();
-  useEffect(() => {
-    const t = setTimeout(() => setDebounced(q.trim()), 180);
-    return () => clearTimeout(t);
-  }, [q]);
-  const res = useQuery({ queryKey: ["search", debounced], queryFn: () => systemApi.search(debounced), enabled: debounced.length > 1 });
-  const go = (to: string) => {
-    onClose();
-    navigate(to);
-  };
-  useEffect(() => {
-    const key = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", key);
-    return () => document.removeEventListener("keydown", key);
-  }, [onClose]);
-  const results = [
-    ...(res.data?.books ?? []).map((b) => ({ key: `b${b.id}`, to: `/books/${b.id}`, title: b.title, sub: b.author ?? "Book" })),
-    ...(res.data?.chapters ?? []).map((c) => ({ key: `c${c.id}`, to: `/books/${c.book_id}/edit`, title: c.title, sub: c.book_title })),
-  ];
-  return (
-    <div className="fixed inset-0 z-[80] flex items-start justify-center bg-black/50 px-4 pt-[14vh] backdrop-blur-sm" onMouseDown={onClose} role="dialog" aria-modal="true" aria-label="Search">
-      <div className="glass w-full max-w-xl animate-fade-up overflow-hidden rounded-3xl shadow-2xl" onMouseDown={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 border-b border-white/[0.06] px-5">
-          <Search className="size-4 text-paper-500" />
-          <input
-            autoFocus
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && results[0] && go(results[0].to)}
-            placeholder="Search titles, authors and chapters"
-            aria-label="Search titles, authors and chapters"
-            className="h-14 flex-1 bg-transparent text-[15px] text-paper-50 placeholder:text-paper-500 focus:outline-none"
-          />
-          <kbd className="rounded-md border border-white/10 px-1.5 py-0.5 text-[10px] text-paper-500">Esc</kbd>
-        </div>
-        <ul className="max-h-[50vh] overflow-y-auto p-2">
-          {debounced.length < 2 ? (
-            <li className="flex items-center gap-3 px-3 py-6 text-sm text-paper-500">
-              <BrandMark className="size-5" /> Type to search your library.
-            </li>
-          ) : res.isPending ? (
-            <li className="px-3 py-6 text-sm text-paper-500">Searching…</li>
-          ) : results.length === 0 ? (
-            <li className="px-3 py-6 text-sm text-paper-500">No books or chapters match “{debounced}”.</li>
-          ) : (
-            results.map((r) => (
-              <li key={r.key}>
-                <button type="button" onClick={() => go(r.to)} className="flex w-full flex-col rounded-xl px-3 py-2.5 text-left hover:bg-white/[0.06] focus-visible:bg-white/[0.06]">
-                  <span className="text-sm text-paper-50">{r.title}</span>
-                  <span className="text-xs text-paper-500">{r.sub}</span>
-                </button>
-              </li>
-            ))
-          )}
-        </ul>
-      </div>
-    </div>
-  );
+  return <BookSearch onClose={onClose} />;
 }
