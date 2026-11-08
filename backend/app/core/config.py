@@ -198,6 +198,12 @@ def get_settings() -> Settings:
     settings = Settings()
     if not settings.secret_key:
         settings.secret_key = _load_or_create_secret(BACKEND_DIR / "data" / ".secret_key")
+    # Values pasted into a host's dashboard often carry stray spaces or newlines.
+    for field in ("supabase_url", "supabase_anon_key", "supabase_jwt_secret", "gemini_api_key"):
+        value = getattr(settings, field, None)
+        if isinstance(value, str):
+            setattr(settings, field, value.strip() or None)
+    settings.database_url = settings.database_url.strip()
     if settings.supabase_url:
         settings.supabase_url = settings.supabase_url.rstrip("/")
     # A blank DATABASE_URL (e.g. an empty field in a host's dashboard) means the local SQLite default.
