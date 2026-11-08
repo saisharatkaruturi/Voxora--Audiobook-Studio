@@ -69,3 +69,5 @@ Password hashing (scrypt), HMAC-signed bearer tokens, per-user authorization on 
 - **Brand system:** `components/brand` (mark, wordmark with living "O", splash, CSS book fallback, `BookStage`).
 - **3D:** `components/3d` — a hinged book with deforming pages (vertex updates), a GPU particle system (one draw call, GLSL) that turns into the waveform, modes `closed | open | flowing | playing | absorb | sealed`. Lazy-loaded; pauses off-screen/hidden; reduced-motion aware; falls back to CSS without WebGL.
 - **Player:** a single `<audio>` outside React (`stores/player.ts`), progress saved every 8 s, on pause, chapter change and page hide (keepalive), with a local copy for offline resilience; a Web Audio analyser (same-origin media only) drives the waveform and living cover.
+
+
