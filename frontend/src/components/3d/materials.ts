@@ -9,7 +9,7 @@ export function brandGradientTexture(): THREE.CanvasTexture {
   const ctx = c.getContext("2d")!;
   const g = ctx.createLinearGradient(0, 0, 256, 0);
   g.addColorStop(0, brand.colors.orchid);
-  g.addColorStop(0.55, "#245E86");
+  g.addColorStop(0.55, "#412E68");
   g.addColorStop(1, brand.colors.mint);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 256, 4);

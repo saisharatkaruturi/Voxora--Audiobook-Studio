@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /*
- * VOXORA: deep midnight teal, soft pearl, and one lime-neon accent. Dark is the
- * signature look (pearl on midnight); light swaps them (midnight on pearl). Lime
+ * VOXORA: deep night plum, soft lavender pearl, and one orchid-neon accent. Dark
+ * is the signature look (pearl on plum); light swaps them (plum on pearl). Orchid
  * marks what matters: the action, the spoken sentence, progress, the sound.
  */
 @theme {
@@ -10,51 +10,52 @@
   --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Literata", "Iowan Old Style", Georgia, serif;
 
-  /* Surfaces (dark): midnight teal #0B3048 and its steps */
-  --color-ink-950: #0b3048;
-  --color-ink-900: #0e3753;
-  --color-ink-850: #113e5c;
-  --color-ink-800: #144566;
-  --color-ink-700: #1a5075;
-  --color-ink-600: #245e86;
-  --color-ink-500: #4a7a9c;
-  --color-plum-900: #0d3450;
-  --color-plum-800: #134262;
+  /* Surfaces (dark): night plum #140B26 and its steps */
+  --color-ink-950: #140b26;
+  --color-ink-900: #1b1131;
+  --color-ink-850: #201539;
+  --color-ink-800: #271a45;
+  --color-ink-700: #322354;
+  --color-ink-600: #412e68;
+  --color-ink-500: #6d5c92;
+  --color-plum-900: #1e1238;
+  --color-plum-800: #2c1a4d;
 
-  /* Text (dark): soft pearl #F2F0E9 */
-  --color-paper-50: #fbfaf6;
-  --color-paper-100: #f2f0e9;
-  --color-paper-200: #e1dfd6;
-  --color-paper-300: #c9cdcb;
-  --color-paper-400: #a9b6be;
-  --color-paper-500: #8ea0ac;
+  /* Text (dark): lavender pearl #F3EFFA */
+  --color-paper-50: #fbf9ff;
+  --color-paper-100: #f3effa;
+  --color-paper-200: #e2dcef;
+  --color-paper-300: #cbc3dc;
+  --color-paper-400: #aa9fc2;
+  --color-paper-500: #8d82a8;
 
-  /* The accent: lime neon #B9F12F */
-  --color-orchid-300: #d2f77a;
-  --color-orchid-400: #c6f455;
-  --color-orchid-500: #b9f12f;
-  --color-orchid-600: #a3d921;
-  --color-orchid-700: #86b515;
-  --color-mint-300: #d2f77a;
-  --color-mint-400: #c6f455;
-  --color-mint-500: #b9f12f;
-  --color-mint-600: #a3d921;
+  /* The accent: orchid neon #C45CFF */
+  --color-orchid-300: #e0aaff;
+  --color-orchid-400: #d283ff;
+  --color-orchid-500: #c45cff;
+  --color-orchid-600: #a93ef0;
+  --color-orchid-700: #8b2ad0;
+  /* Secondary: soft mint, for success and "done" */
+  --color-mint-300: #a8f5dd;
+  --color-mint-400: #7eefc9;
+  --color-mint-500: #4fdcae;
+  --color-mint-600: #2fbf92;
 
   /* States only */
   --color-amber-300: #ffd48a;
   --color-amber-400: #ffc25e;
   --color-amber-500: #f5ad3a;
-  --color-sage-400: #b9f12f;
+  --color-sage-400: #7eefc9;
   --color-rose-400: #ff8f80;
   --color-sky-400: #9fd0ff;
 
   --radius-card: 1rem;
   --radius-control: 999px;
 
-  /* Nothing at rest casts a shadow; a book cover is a physical object, so it keeps a contact shadow. */
+  /* Nothing at rest casts a shadow; a book cover keeps a contact shadow, and active things glow orchid. */
   --shadow-soft: none;
   --shadow-cover: 0 1px 1px rgb(0 0 0 / 0.12), 0 18px 30px -18px rgb(0 0 0 / 0.45);
-  --shadow-glow: none;
+  --shadow-glow: 0 0 0 1px rgb(196 92 255 / 0.25), 0 10px 30px -10px rgb(196 92 255 / 0.55);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -116,105 +117,105 @@
  * ink in light mode: every `white/[x]` overlay becomes a soft ink tint there.
  */
 :root {
-  --sky: linear-gradient(180deg, #041420 0%, #08243a 38%, #0b3048 70%, #0f3a55 100%);
-  --page-bg: #0b3048;
-  --surface-bg: #0e3753;
+  --sky: radial-gradient(120% 70% at 85% 0%, rgb(196 92 255 / 0.16), transparent 60%), radial-gradient(90% 60% at 0% 100%, rgb(120 70 255 / 0.14), transparent 60%), linear-gradient(180deg, #07040f 0%, #0e0820 38%, #140b26 70%, #1d1238 100%);
+  --page-bg: #140b26;
+  --surface-bg: #1b1131;
   --surface-border: transparent;
   --surface-shadow: none;
-  --player-veil: rgb(11 48 72 / 0.74);
-  --player-aurora-a: transparent;
-  --player-aurora-b: transparent;
-  --panel-bg: #0e3753;
+  --player-veil: rgb(20 11 38 / 0.74);
+  --player-aurora-a: rgb(196 92 255 / 0.28);
+  --player-aurora-b: rgb(110 80 255 / 0.22);
+  --panel-bg: #1b1131;
   --panel-border: transparent;
   --panel-shadow: none;
   /* Apple-style glass, only on what floats over content: bars, menus, dialogs. */
-  --glass-bg: rgb(14 55 83 / 0.55);
-  --glass-border: rgb(242 240 233 / 0.12);
+  --glass-bg: rgb(27 17 49 / 0.55);
+  --glass-border: rgb(243 239 250 / 0.12);
   --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.1);
-  --glass-shadow: 0 14px 36px -16px rgb(2 14 24 / 0.7);
-  --neo-bg: #144566;
+  --glass-shadow: 0 14px 36px -16px rgb(6 2 16 / 0.7);
+  --neo-bg: #271a45;
   --neo-shadow: none;
-  --on-accent: #0b3048;
-  --glow-a: transparent;
-  --glow-b: transparent;
-  --glow-c: transparent;
+  --on-accent: #140b26;
+  --glow-a: rgb(196 92 255 / 0.22);
+  --glow-b: rgb(236 72 180 / 0.14);
+  --glow-c: rgb(110 80 255 / 0.16);
   --grain-opacity: 0;
-  /* The background motion: lines of a page becoming sound, in lime */
-  --wave-ink: 185 241 47;
-  --wave-alpha: 0.2;
-  /* The book: midnight cloth stamped in lime, pearl pages, a lime highlighter */
-  --book-cloth: #082438;
-  --book-cloth-ink: #b9f12f;
+  /* The background motion: lines of a page becoming sound, in orchid */
+  --wave-ink: 196 92 255;
+  --wave-alpha: 0.24;
+  /* The book: plum cloth stamped in orchid, pearl pages, an orchid highlighter */
+  --book-cloth: #1c0f36;
+  --book-cloth-ink: #d283ff;
   --book-endpaper: #ddd8cb;
   --page-paper: #f2f0e9;
-  --page-ink: #1d2a33;
-  --page-mark: rgb(185 241 47 / 0.6);
-  --mark: rgb(185 241 47 / 0.35);
+  --page-ink: #241c33;
+  --page-mark: rgb(196 92 255 / 0.32);
+  --mark: rgb(196 92 255 / 0.4);
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --sky: linear-gradient(180deg, #e6ebee 0%, #f2f0e9 60%);
-  --page-bg: #f2f0e9;
-  --surface-bg: #e8e6de;
+  --sky: radial-gradient(110% 60% at 85% 0%, rgb(196 92 255 / 0.12), transparent 60%), linear-gradient(180deg, #ece6f7 0%, #f6f3fb 60%);
+  --page-bg: #f6f3fb;
+  --surface-bg: #ece7f5;
   --surface-border: transparent;
   --surface-shadow: none;
-  --player-veil: rgb(242 240 233 / 0.8);
-  --player-aurora-a: transparent;
-  --player-aurora-b: transparent;
-  --panel-bg: #e8e6de;
+  --player-veil: rgb(246 243 251 / 0.8);
+  --player-aurora-a: rgb(196 92 255 / 0.18);
+  --player-aurora-b: rgb(110 80 255 / 0.12);
+  --panel-bg: #ece7f5;
   --panel-border: transparent;
   --panel-shadow: none;
-  --glass-bg: rgb(250 249 245 / 0.6);
+  --glass-bg: rgb(252 250 255 / 0.6);
   --glass-border: rgb(255 255 255 / 0.8);
   --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.95);
-  --glass-shadow: 0 14px 36px -18px rgb(11 48 72 / 0.45);
-  --neo-bg: #e8e6de;
+  --glass-shadow: 0 14px 36px -18px rgb(40 20 80 / 0.4);
+  --neo-bg: #ece7f5;
   --neo-shadow: none;
-  --on-accent: #0b3048;
-  --glow-a: transparent;
-  --glow-b: transparent;
-  --glow-c: transparent;
+  --on-accent: #ffffff;
+  --glow-a: rgb(196 92 255 / 0.14);
+  --glow-b: rgb(236 72 180 / 0.08);
+  --glow-c: rgb(110 80 255 / 0.1);
   --grain-opacity: 0;
-  --wave-ink: 11 48 72;
+  --wave-ink: 139 42 208;
   --wave-alpha: 0.16;
-  --mark: rgb(185 241 47 / 0.55);
+  --mark: rgb(196 92 255 / 0.3);
 
-  --color-white: #0b3048;
-  --color-ink-950: #f2f0e9;
-  --color-ink-900: #eae8e0;
-  --color-ink-850: #faf9f5;
-  --color-ink-800: #e5e3da;
-  --color-ink-700: #d9d7cd;
-  --color-ink-600: #c6c4b9;
-  --color-ink-500: #9c9a90;
-  --color-plum-900: #eae8e0;
-  --color-plum-800: #dfddd3;
+  --color-white: #1b1131;
+  --color-ink-950: #f6f3fb;
+  --color-ink-900: #efeaf7;
+  --color-ink-850: #fcfbfe;
+  --color-ink-800: #e8e2f3;
+  --color-ink-700: #ddd5ec;
+  --color-ink-600: #cbc0e0;
+  --color-ink-500: #9d92b5;
+  --color-plum-900: #efeaf7;
+  --color-plum-800: #e3dcf0;
 
-  --color-paper-50: #082538;
-  --color-paper-100: #0b3048;
-  --color-paper-200: #123a54;
-  --color-paper-300: #24485f;
-  --color-paper-400: #3c5a6e;
-  --color-paper-500: #4e6a7d;
+  --color-paper-50: #120a24;
+  --color-paper-100: #1b1131;
+  --color-paper-200: #2a1f45;
+  --color-paper-300: #3e3260;
+  --color-paper-400: #5a4e7a;
+  --color-paper-500: #6c6190;
 
-  /* Lime fills stay neon; lime used as text darkens to stay readable on pearl. */
-  --color-orchid-300: #3f6600;
-  --color-orchid-400: #4a7a00;
-  --color-orchid-500: #b9f12f;
-  --color-orchid-600: #a3d921;
-  --color-orchid-700: #86b515;
-  --color-mint-300: #3f6600;
-  --color-mint-400: #4a7a00;
-  --color-mint-500: #b9f12f;
-  --color-mint-600: #a3d921;
+  /* Orchid fills deepen a step; orchid used as text darkens to stay readable on pearl. */
+  --color-orchid-300: #6a1fb0;
+  --color-orchid-400: #7a28c8;
+  --color-orchid-500: #9b3fe8;
+  --color-orchid-600: #8a2fd6;
+  --color-orchid-700: #7424bd;
+  --color-mint-300: #0d6e51;
+  --color-mint-400: #0f7a5a;
+  --color-mint-500: #2fbf92;
+  --color-mint-600: #23a37b;
 
   --color-amber-300: #8a5208;
   --color-amber-400: #8a5208;
   --color-amber-500: #7a4806;
-  --color-sage-400: #4a7a00;
+  --color-sage-400: #0f7a5a;
   --color-rose-400: #a3261c;
-  --color-sky-400: #2f5d8a;
+  --color-sky-400: #4b3fa8;
 }
 
 @layer base {

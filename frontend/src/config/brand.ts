@@ -16,15 +16,15 @@ export const brand = {
     pagesToExperiences: "Turn pages into experiences.",
   },
   colors: {
-    obsidian: "#0B3048",
-    carbon: "#0E3753",
-    plum: "#144566",
-    orchid: "#B9F12F",
-    mint: "#B9F12F",
+    obsidian: "#140B26",
+    carbon: "#1B1131",
+    plum: "#271A45",
+    orchid: "#C45CFF",
+    mint: "#7EEFC9",
     amber: "#FFB86B",
     coral: "#FF6B81",
-    ice: "#F2F0E9",
-    mist: "#A9B6BE",
+    ice: "#F3EFFA",
+    mist: "#AA9FC2",
   },
 } as const;
 

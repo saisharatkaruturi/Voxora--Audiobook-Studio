@@ -81,8 +81,8 @@ function Rig({ mode, level, interactive, pointer }: { mode: SceneMode; level?: (
     <>
       <ambientLight intensity={0.35} />
       <directionalLight position={[2.5, 4, 5]} intensity={1.1} color="#ffffff" />
-      <pointLight position={[-3.2, 1.6, -1.2]} intensity={28} color="#B9F12F" distance={12} />
-      <pointLight position={[3.2, 0.4, 1.8]} intensity={14} color="#F2F0E9" distance={12} />
+      <pointLight position={[-3.2, 1.6, -1.2]} intensity={28} color="#C45CFF" distance={12} />
+      <pointLight position={[3.2, 0.4, 1.8]} intensity={14} color="#F3EFFA" distance={12} />
       <pointLight ref={frontFill} position={[0.4, 1.6, 3.2]} intensity={0} color="#e9e2ff" distance={9} />
       <group ref={book}>
         <Book3D drive={bookDrive} />

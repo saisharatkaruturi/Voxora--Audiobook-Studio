@@ -6,7 +6,7 @@
     <title>VOXORA — Where stories find their voice</title>
     <meta name="description" content="Turn any book you own into a narrated audiobook. Choose the voice, follow the words, keep it on your device." />
     <meta name="application-name" content="VOXORA" />
-    <meta name="theme-color" content="#0b3048" />
+    <meta name="theme-color" content="#140b26" />
     <meta name="color-scheme" content="dark light" />
     <script>
       (function () {
@@ -14,7 +14,7 @@
         try { c = localStorage.getItem("vx.theme") || "dark"; } catch (e) {}
         var light = c === "light" || (c === "system" && window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches);
         document.documentElement.dataset.theme = light ? "light" : "dark";
-        if (light) document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f2f0e9");
+        if (light) document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f6f3fb");
       })();
     </script>
 

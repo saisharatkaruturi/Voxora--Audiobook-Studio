@@ -20,7 +20,7 @@ const resolve = (choice: ThemeChoice): Theme => (choice === "system" ? (media?.m
 function apply(theme: Theme) {
   const root = document.documentElement;
   root.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f2f0e9" : "#0b3048");
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f6f3fb" : "#140b26");
 }
 
 interface ThemeState {

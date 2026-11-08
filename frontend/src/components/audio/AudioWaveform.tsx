@@ -57,7 +57,7 @@ export function AudioWaveform({ active = false, level, bars = 48, className, res
       const target = s.active ? (s.level ? 0.25 + live * 0.9 : 0.55 + 0.25 * Math.sin(t * 1.3)) : 0;
       s.energy += (target - s.energy) * 0.08;
       const bw = w / (bars + (bars - 1) * gap);
-      // The theme's one accent (teal), read live so it follows light / dark.
+      // The theme's one accent (orchid), read live so it follows light / dark.
       ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--color-orchid-500").trim() || brand.colors.orchid;
       let settled = true;
       for (let i = 0; i < bars; i++) {
