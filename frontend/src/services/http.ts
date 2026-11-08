@@ -116,7 +116,9 @@ export async function downloadAuthenticated(path: string, fallbackName: string) 
 
 export function wsUrl(path: string): string {
   const token = useAuth.getState().token ?? "";
-  const base = API_BASE || window.location.origin;
+  // Hosts that can't proxy WebSockets (e.g. Vercel) point VITE_WS_BASE straight at the backend.
+  const wsBase = (import.meta.env.VITE_WS_BASE as string | undefined)?.replace(/\/$/, "");
+  const base = wsBase || API_BASE || window.location.origin;
   const url = new URL(path, base.endsWith("/") ? base : base + "/");
   url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
   url.searchParams.set("token", token);

@@ -2,7 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "npm --prefix frontend ci",
-  "buildCommand": "npm --prefix frontend run build",
+  "buildCommand": "VITE_WS_BASE=https://voxora-5z09.onrender.com npm --prefix frontend run build",
   "outputDirectory": "frontend/dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://voxora-5z09.onrender.com/api/:path*" },
+    { "source": "/media/:path*", "destination": "https://voxora-5z09.onrender.com/media/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
