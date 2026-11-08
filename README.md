@@ -6,7 +6,11 @@
 
 **An AI-powered Audiobook Studio that transforms books and documents into immersive, personalized listening experiences.**
 
-[Features](#-key-features) · [Architecture](#️-system-architecture) · [Screenshots](#-product-showcase) · [Installation](#-getting-started)
+### 🌐 [Try VOXORA live → voxora-three-murex.vercel.app](https://voxora-three-murex.vercel.app)
+
+<sub>Hosted on Vercel (frontend) and Render (backend). The free backend sleeps when idle, so the first load can take 30–60 seconds.</sub>
+
+[Live Demo](https://voxora-three-murex.vercel.app) · [Features](#-key-features) · [Architecture](#️-system-architecture) · [Screenshots](#-product-showcase) · [Installation](#-getting-started)
 
 </div>
 
