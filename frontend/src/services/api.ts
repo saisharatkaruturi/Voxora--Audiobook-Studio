@@ -20,6 +20,7 @@ import type {
   TTSProviderInfo,
   User,
   Voice,
+  BookFinderResult,
 } from "@/types/api";
 
 type Items<T> = { items: T[] };
@@ -64,6 +65,7 @@ export const booksApi = {
   list: (q: LibraryQuery) => request<{ items: Book[]; total: number }>("/api/books", { query: { ...q } }),
   continueListening: () => request<Items<Book>>("/api/books/continue"),
   get: (id: string) => request<Book>(`/api/books/${id}`),
+  refreshInfo: (id: string) => request<Job>(`/api/books/${id}/info`, { method: "POST" }),
   upload: (file: File, opts: { autoAnalyze?: boolean; language?: string; ocrMode?: string } = {}) => {
     const form = new FormData();
     form.append("file", file);
@@ -177,4 +179,5 @@ export const systemApi = {
       "/api/search",
       { query: { q } },
     ),
+  findBooks: (q: string) => request<BookFinderResult>("/api/search/books", { query: { q } }),
 };

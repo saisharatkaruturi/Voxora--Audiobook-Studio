@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.api.deps import current_user
+from app.api.deps import current_user, rate_limit
 from app.core.config import get_settings
 from app.core.errors import PermissionDeniedError
 from app.db.session import get_db
@@ -90,3 +90,21 @@ def search(q: str, user: User = Depends(current_user), db: Session = Depends(get
         "books": [{"id": b.id, "title": b.title, "author": b.author} for b in books],
         "chapters": [{"id": cid, "title": t, "book_id": bid, "book_title": bt} for cid, t, bid, bt in chapters],
     }
+
+
+@router.get("/search/books", dependencies=[Depends(rate_limit("book_finder", 20, 60))])
+def find_books(q: str, user: User = Depends(current_user), db: Session = Depends(get_db)) -> dict:
+    """Search bar book finder: a title, author or character -> matching books, what they're
+    about, reader ratings and recommendations. Books already in the library link to it."""
+    import re
+
+    from app.core.errors import ValidationFailed
+    from app.services.book_finder import find
+
+    if len(q.strip()) < 2:
+        raise ValidationFailed("Type at least 2 characters.")
+    result = find(q)
+    squash = lambda t: re.sub(r"[^a-z0-9]", "", (t or "").lower())  # noqa: E731
+    mine = {squash(t): bid for bid, t in db.execute(select(Book.id, Book.title).where(Book.owner_id == user.id)).all()}
+    tag = lambda b: {**b, "library_book_id": mine.get(squash(b["title"]))}  # noqa: E731
+    return {**result, "matches": [tag(b) for b in result["matches"]], "recommendations": [tag(b) for b in result["recommendations"]]}

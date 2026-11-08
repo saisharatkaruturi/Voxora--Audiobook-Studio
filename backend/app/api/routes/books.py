@@ -342,6 +342,15 @@ def classify_library(everything: bool = False, user: User = Depends(current_user
     return serialize_job(job)
 
 
+@router.post("/{book_id}/info", dependencies=[Depends(rate_limit("book_info", 20, 3600))])
+def refresh_book_info(book_id: str, user: User = Depends(current_user), db: Session = Depends(get_db)) -> dict:
+    """Re-detect one book's genre and 'about' summary, and refresh its reader ratings."""
+    book = get_book_for(db, book_id, user)
+    running = db.scalar(select(GenerationJob).where(GenerationJob.book_id == book.id, GenerationJob.type == "classify", GenerationJob.status.in_([JobStatus.QUEUED, JobStatus.RUNNING])))
+    job = running or queue.enqueue(db, type="classify", user_id=user.id, book_id=book.id, payload={"book_ids": [book.id]}, priority=2)
+    return serialize_job(job)
+
+
 @router.post("/{book_id}/export/m4b")
 def build_m4b(book_id: str, user: User = Depends(current_user), db: Session = Depends(get_db)) -> dict:
     book = get_book_for(db, book_id, user)

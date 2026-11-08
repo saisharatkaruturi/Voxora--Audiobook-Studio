@@ -28,7 +28,10 @@ SYSTEM = (
     "series it belongs to with its number in reading order (use decimals for novellas, e.g. 2.5). If the book is a "
     "standalone, series and series_index are null. Only name a series you are confident about. Use common genre "
     "labels such as: Romance, Contemporary Romance, New Adult Romance, Sports Romance, Dark Romance, Romantic "
-    "Suspense, Psychological Thriller, Young Adult, Indian Fiction, Literary Fiction."
+    "Suspense, Psychological Thriller, Young Adult, Indian Fiction, Literary Fiction. Finally write 'about': a "
+    "spoiler-free description of what the book is about in 2-4 sentences (premise, main character, setting, what is "
+    "at stake), like the back cover of the book. If you recognise the published book, use what you know; otherwise "
+    "describe it only from the opening text and do not invent plot. For non-fiction, say what it covers and who it is for."
 )
 
 SCHEMA = {
@@ -40,9 +43,10 @@ SCHEMA = {
         "genres": {"type": "array", "items": {"type": "string"}},
         "series": {"type": ["string", "null"]},
         "series_index": {"type": ["number", "null"]},
+        "about": {"type": "string"},
         "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
     },
-    "required": ["title", "author", "genre", "genres", "series", "series_index", "confidence"],
+    "required": ["title", "author", "genre", "genres", "series", "series_index", "about", "confidence"],
 }
 
 
@@ -131,10 +135,25 @@ def _apply(book_id: str, result: dict) -> dict | None:
         book.genres = genres or ([book.genre] if book.genre else None)
         book.series = series[:300] if series else None
         book.series_index = float(index) if series and isinstance(index, (int, float)) else None
+        about = (result.get("about") or "").strip()[:2000]
+        if about:
+            book.book_info = {**(book.book_info or {}), "about": about}
         book.classified_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
         saved = {"title": book.title, "author": book.author, "genre": book.genre, "genres": book.genres, "series": book.series, "series_index": book.series_index}
     log.info("book.classified", book_id=book_id, confidence=result.get("confidence"), **saved)
+    attach_ratings(book_id, saved["title"], saved["author"])
     return saved
+
+
+def attach_ratings(book_id: str, title: str, author: str | None) -> None:
+    """Look up real reader ratings (Open Library) and store them with the book."""
+    from app.services.ratings import lookup
+
+    ratings = lookup(title, author)
+    with session_scope() as db:
+        book = db.get(Book, book_id)
+        if book is not None:
+            book.book_info = {**(book.book_info or {}), "ratings": ratings, "ratings_checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
 
 
 def classify_book(book_id: str, llm=None) -> dict | None:

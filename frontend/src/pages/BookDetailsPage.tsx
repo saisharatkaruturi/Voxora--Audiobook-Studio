@@ -20,6 +20,8 @@ import { bookFraction, formatBytes, formatClock, formatDuration, formatNumber } 
 import { languageName } from "@/utils/languages";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { BrandBadge } from "@/components/brand/BrandWordmark";
+import { RatingLine } from "@/components/book/StarRating";
+import { AboutBook } from "@/features/book/AboutBook";
 
 export default function BookDetailsPage() {
   const { book } = useBookContext();
@@ -144,6 +146,8 @@ export default function BookDetailsPage() {
             </div>
           )}
 
+          {book.ratings && <RatingLine ratings={book.ratings} className="mt-4" />}
+
           <dl className="mt-7 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
             <Stat label="Chapters" value={book.narrated_chapters ?? book.chapter_count ?? "—"} />
             <Stat label="Duration" value={hasAudio ? formatDuration(book.total_duration) : "—"} />
@@ -196,9 +200,10 @@ export default function BookDetailsPage() {
               {book.error.message}
             </Notice>
           )}
-          {book.description && <p className="mt-8 max-w-2xl leading-relaxed text-paper-300">{book.description}</p>}
         </div>
       </section>
+
+      <AboutBook book={book} />
 
       <OnThisDevice bookId={book.id} onRecreate={() => setConfirm("regenerate")} />
       <Downloads bookId={book.id} />

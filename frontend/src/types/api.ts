@@ -100,6 +100,11 @@ export interface Book {
   genres: string[];
   series: string | null;
   series_index: number | null;
+  /** AI-written, spoiler-free "what it's about" (set after upload). */
+  about: string | null;
+  /** Real reader ratings from Open Library; null when none were found. */
+  ratings: BookRatings | null;
+  classified_at: string | null;
   year: string | null;
   language: string | null;
   languages: string[];
@@ -358,4 +363,33 @@ export interface BookSnapshot {
   job: Job | null;
   chapters: Pick<Chapter, "id" | "position" | "title" | "audio_status" | "audio_progress" | "duration" | "audio_error" | "include_in_audio">[];
   finished: boolean;
+}
+
+export interface BookRatings {
+  average: number | null;
+  count: number;
+  source: string;
+  url: string | null;
+}
+
+export interface FoundBook {
+  title: string;
+  author: string | null;
+  year: number | null;
+  genres: string[];
+  about: string;
+  ratings: BookRatings | null;
+  cover_url: string | null;
+  library_book_id: string | null;
+  matched_on?: string | null;
+  match_note?: string | null;
+  why?: string | null;
+}
+
+export interface BookFinderResult {
+  query: string;
+  interpretation: string | null;
+  matches: FoundBook[];
+  recommendations: FoundBook[];
+  model: string;
 }
