@@ -1,0 +1,6 @@
+# Vercel hosts only the static frontend; the FastAPI backend runs elsewhere (see render.yaml).
+backend
+Dockerfile
+render.yaml
+screenshots
+docs
